@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -22,15 +23,12 @@ public class MainActivity extends AppCompatActivity {
         Animation titleFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);
         titleImage.startAnimation(titleFadeInAnimation);
 
-        //adding start button
-        //ImageButton startButton = (ImageButton) findViewById(R.id.startButton);
-
         //play background music
         backgroundMusicMain = MediaPlayer.create(this, R.raw.splash_music);
         backgroundMusicMain.start();
     }
 
-    public void startButton() {
+    public void startButton(View v) {
         //starting game activity
         startActivity(new Intent(this, GameActivity.class));
     }
