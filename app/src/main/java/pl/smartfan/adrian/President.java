@@ -22,7 +22,7 @@ public class President {
         speed = 1;
 
         //Getting bitmap from drawable resource
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president); // TODO: 27.08.2017 animate 
     }
 
     //Method to update coordinate of character
