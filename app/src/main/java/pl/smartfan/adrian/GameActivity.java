@@ -19,4 +19,18 @@ public class GameActivity extends AppCompatActivity {
         //adding it to contentView
         setContentView(gameView);
     }
+
+    //pausing the game when activity is paused
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameView.pause();
+    }
+
+    //running the game when activity is resumed
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameView.resume();
+    }
 }
