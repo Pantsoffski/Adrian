@@ -15,26 +15,19 @@ public class President {
     //animation frame
     private int frame;
 
-    //motion speed of the character
-    private int speed = 0;
-
     //constructor
     public President(Context context) {
-        x = 75;
-        y = 50;
-        speed = 1;
+        x = 750;
+        y = 500;
         frame = 0;
 
-        //Getting bitmap from drawable resource
+        //Getting bitmap frames and put to array
         bitmap[0] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president);
         bitmap[1] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president2);
     }
 
-    //Method to update coordinate of character
+    //Method to update frame animation
     public void update() {
-        //updating x coordinate
-        x++;
-
         //update current frame
         if (frame == 0) {
             frame = 1;
@@ -54,9 +47,5 @@ public class President {
 
     public int getY() {
         return y;
-    }
-
-    public int getSpeed() {
-        return speed;
     }
 }
