@@ -6,11 +6,14 @@ import android.graphics.BitmapFactory;
 
 public class President {
     //Bitmap, get character from image
-    private Bitmap bitmap;
+    private Bitmap[] bitmap = new Bitmap[2];
 
     //coordinates
     private int x;
     private int y;
+
+    //animation frame
+    private int frame;
 
     //motion speed of the character
     private int speed = 0;
@@ -20,20 +23,29 @@ public class President {
         x = 75;
         y = 50;
         speed = 1;
+        frame = 0;
 
         //Getting bitmap from drawable resource
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president); // TODO: 27.08.2017 animate 
+        bitmap[0] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president);
+        bitmap[1] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president2);
     }
 
     //Method to update coordinate of character
     public void update() {
         //updating x coordinate
         x++;
+
+        //update current frame
+        if (frame == 0) {
+            frame = 1;
+        } else {
+            frame = 0;
+        }
     }
 
     //getters
     public Bitmap getBitmap() {
-        return bitmap;
+        return bitmap[frame];
     }
 
     public int getX() {
