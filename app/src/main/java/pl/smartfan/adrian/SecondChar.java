@@ -5,10 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 /**
- * Main character (player) class.
+ * Second character class.
  */
 
-public class President {
+public class SecondChar {
     //Bitmap, get character from image
     private Bitmap[] bitmap = new Bitmap[2];
 
@@ -20,24 +20,14 @@ public class President {
     private int frame;
 
     //constructor
-    public President(Context context) {
-        x = 750;
+    public SecondChar(Context context) {
+        x = 1050;
         y = 500;
         frame = 0;
 
         //Getting bitmap frames and put to array
-        bitmap[0] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president);
-        bitmap[1] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president2);
-    }
-
-    //Method to update frame animation
-    public void update() {
-        //update current frame
-        if (frame == 0) {
-            frame = 1;
-        } else {
-            frame = 0;
-        }
+        bitmap[0] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.second);
+        bitmap[1] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.second2);
     }
 
     //getters
