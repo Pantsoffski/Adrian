@@ -31,14 +31,14 @@ public class President {
     }
 
     //Method to update frame animation
-    public void update() {
+/*    public void update() {
         //update current frame
         if (frame == 0) {
             frame = 1;
         } else {
             frame = 0;
         }
-    }
+    }*/
 
     //getters
     public Bitmap getBitmap(int number) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -68,15 +69,16 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public void run() {
         while (playing) {
-            //update();
-            //draw();
-            //control();
+            update();
+            draw(3);
+            control();
         }
     }
 
     private void update() {
         //updating player position
-        president.update();
+        //president.update();
+        lawPaper.update();
     }
 
     private void draw(int bitmapNumber) {
@@ -86,24 +88,28 @@ public class GameView extends SurfaceView implements Runnable {
             canvas = surfaceHolder.lockCanvas();
             //drawing a background image for canvas
             //canvas.drawBitmap(backgroundImage, 0, 0, null);
-            //Drawing the player
-            canvas.drawBitmap(
-                    president.getBitmap(bitmapNumber),
-                    president.getX(),
-                    president.getY(),
-                    paint);
-            //Drawing the second character
-            canvas.drawBitmap(
-                    secondChar.getBitmap(bitmapNumber),
-                    secondChar.getX(),
-                    secondChar.getY(),
-                    paint);
-            //Drawing the law paper
-            canvas.drawBitmap( // TODO: 11.09.2017 animate law paper 
-                    lawPaper.getBitmap(),
-                    100 + lawPaper.getX(),
-                    100 + lawPaper.getY(),
-                    paint);
+            canvas.drawColor(Color.WHITE);
+            if (bitmapNumber == 3) {
+                //Drawing the law paper
+                canvas.drawBitmap(
+                        lawPaper.getBitmap(),
+                        lawPaper.getX(),
+                        lawPaper.getY(),
+                        paint);
+            } else {
+                //Drawing the player
+                canvas.drawBitmap(
+                        president.getBitmap(bitmapNumber),
+                        president.getX(),
+                        president.getY(),
+                        paint);
+                //Drawing the second character
+                canvas.drawBitmap(
+                        secondChar.getBitmap(bitmapNumber),
+                        secondChar.getX(),
+                        secondChar.getY(),
+                        paint);
+            }
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
@@ -111,7 +117,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void control() {
         try {
-            Thread.sleep(1000); //animation speed
+            Thread.sleep(17); //animation speed
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
