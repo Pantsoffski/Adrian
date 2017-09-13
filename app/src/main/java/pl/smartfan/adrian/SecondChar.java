@@ -21,8 +21,8 @@ public class SecondChar {
 
     //constructor
     public SecondChar(Context context) {
-        x = 1050;
-        y = 500;
+        x = 1300;
+        y = 470;
         frame = 0;
 
         //Getting bitmap frames and put to array

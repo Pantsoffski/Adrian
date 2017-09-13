@@ -12,17 +12,17 @@ import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements Runnable {
 
+    public static boolean signedLawPaper = false;
     volatile boolean playing;
     private Thread gameThread = null;
-
     //adding the player to this class
     private President president;
-
     //adding second character to this class
     private SecondChar secondChar;
-
     //adding law paper to this class
     private LawPaper lawPaper;
+    //bitmap array number
+    private int bitmapNumber = 0;
 
     //These objects will be used for drawing
     private Paint paint;
@@ -56,11 +56,14 @@ public class GameView extends SurfaceView implements Runnable {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
                 //When the user presses on the screen
-                draw(0);
+                bitmapNumber = 0;
+                draw();
+                signedLawPaper = true;
                 break;
             case MotionEvent.ACTION_DOWN:
                 //When the user releases the screen
-                draw(1);
+                bitmapNumber = 1;
+                draw();
                 break;
         }
         return true;
@@ -70,7 +73,7 @@ public class GameView extends SurfaceView implements Runnable {
     public void run() {
         while (playing) {
             update();
-            draw(3);
+            draw();
             control();
         }
     }
@@ -81,7 +84,7 @@ public class GameView extends SurfaceView implements Runnable {
         lawPaper.update();
     }
 
-    private void draw(int bitmapNumber) {
+    private void draw() {
         //checking if surface is valid
         if (surfaceHolder.getSurface().isValid()) {
             //locking the canvas
@@ -89,27 +92,24 @@ public class GameView extends SurfaceView implements Runnable {
             //drawing a background image for canvas
             //canvas.drawBitmap(backgroundImage, 0, 0, null);
             canvas.drawColor(Color.WHITE);
-            if (bitmapNumber == 3) {
-                //Drawing the law paper
-                canvas.drawBitmap(
-                        lawPaper.getBitmap(),
-                        lawPaper.getX(),
-                        lawPaper.getY(),
-                        paint);
-            } else {
-                //Drawing the player
-                canvas.drawBitmap(
-                        president.getBitmap(bitmapNumber),
-                        president.getX(),
-                        president.getY(),
-                        paint);
-                //Drawing the second character
-                canvas.drawBitmap(
-                        secondChar.getBitmap(bitmapNumber),
-                        secondChar.getX(),
-                        secondChar.getY(),
-                        paint);
-            }
+            //Drawing the player
+            canvas.drawBitmap(
+                    president.getBitmap(bitmapNumber),
+                    president.getX(),
+                    president.getY(),
+                    paint);
+            //Drawing the second character
+            canvas.drawBitmap(
+                    secondChar.getBitmap(bitmapNumber),
+                    secondChar.getX(),
+                    secondChar.getY(),
+                    paint);
+            //Drawing the law paper
+            canvas.drawBitmap(
+                    lawPaper.getBitmap(),
+                    lawPaper.getX(),
+                    lawPaper.getY(),
+                    paint);
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
