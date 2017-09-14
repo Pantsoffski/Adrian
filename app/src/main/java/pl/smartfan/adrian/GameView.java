@@ -12,7 +12,7 @@ import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements Runnable {
 
-    public static boolean signedLawPaper = false;
+    public static boolean signedLawPaper, paperVisibility, userStarted = false;
     volatile boolean playing;
     private Thread gameThread = null;
     //adding the player to this class
@@ -48,7 +48,6 @@ public class GameView extends SurfaceView implements Runnable {
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
-
     }
 
     @Override
@@ -57,8 +56,10 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_UP:
                 //When the user presses on the screen
                 bitmapNumber = 0;
+                userStarted = true;
+                paperVisibility = true;
+                signedLawPaper = lawPaper.getX() <= 750;
                 draw();
-                signedLawPaper = true;
                 break;
             case MotionEvent.ACTION_DOWN:
                 //When the user releases the screen
@@ -104,12 +105,14 @@ public class GameView extends SurfaceView implements Runnable {
                     secondChar.getX(),
                     secondChar.getY(),
                     paint);
-            //Drawing the law paper
-            canvas.drawBitmap(
-                    lawPaper.getBitmap(),
-                    lawPaper.getX(),
-                    lawPaper.getY(),
-                    paint);
+            if (paperVisibility == true) {
+                //Drawing the law paper
+                canvas.drawBitmap(
+                        lawPaper.getBitmap(),
+                        lawPaper.getX(),
+                        lawPaper.getY(),
+                        paint);
+            }
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
