@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
+import android.text.TextPaint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -25,9 +25,10 @@ public class GameView extends SurfaceView implements Runnable {
     private int bitmapNumber = 0;
 
     //These objects will be used for drawing
-    private Paint paint;
+    private TextPaint paint;
     private Canvas canvas;
     private SurfaceHolder surfaceHolder;
+    //private TextPaint textPaint;
 
     //background image
     private Bitmap backgroundImage = BitmapFactory.decodeResource(getResources(), R.mipmap.splash_screen);
@@ -47,7 +48,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         //initializing drawing objects
         surfaceHolder = getHolder();
-        paint = new Paint();
+        paint = new TextPaint();
+        paint.setTextSize(100); //set text size
+        paint.setColor(Color.RED);
     }
 
     @Override
@@ -113,6 +116,7 @@ public class GameView extends SurfaceView implements Runnable {
                         lawPaper.getY(),
                         paint);
             }
+            canvas.drawText("Score: " + "25", 10, 100, paint);
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
         }

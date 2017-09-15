@@ -67,7 +67,7 @@ public class LawPaper {
                 if (x == leftLimit) {
                     left = false;
                 }
-            } else if (signedLawPaper) { //when law is signed, move left to folder
+            } else if (signedLawPaper) { //when law is signed, move left to briefcase
                 x -= 15;
 
                 if (x < 550) {
