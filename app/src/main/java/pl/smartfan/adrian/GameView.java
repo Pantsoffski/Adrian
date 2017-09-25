@@ -19,8 +19,10 @@ public class GameView extends SurfaceView implements Runnable {
     private President president;
     //adding second character to this class
     private SecondChar secondChar;
-    //adding law paper to this class
-    private LawPaper lawPaper;
+    //adding paper to this class
+    private Papers papers;
+    //adding law papers to this class
+    //private LawPaper lawPaper;
     //bitmap array number
     private int bitmapNumber = 0;
 
@@ -44,7 +46,7 @@ public class GameView extends SurfaceView implements Runnable {
         secondChar = new SecondChar(context);
 
         //initializing law paper object
-        lawPaper = new LawPaper(context);
+        //lawPaper = new LawPaper(context);
 
         //initializing drawing objects
         surfaceHolder = getHolder();
@@ -61,7 +63,7 @@ public class GameView extends SurfaceView implements Runnable {
                 bitmapNumber = 0;
                 userStarted = true;
                 paperVisibility = true;
-                signedLawPaper = lawPaper.getX() <= 750;
+                //signedLawPaper = lawPaper.getX() <= 750;
                 draw();
                 break;
             case MotionEvent.ACTION_DOWN:
@@ -85,7 +87,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
         //updating player position
         //president.update();
-        lawPaper.update();
+        //lawPaper.update();
     }
 
     private void draw() {
@@ -108,14 +110,14 @@ public class GameView extends SurfaceView implements Runnable {
                     secondChar.getX(),
                     secondChar.getY(),
                     paint);
-            if (paperVisibility == true) {
+/*            if (paperVisibility == true) {
                 //Drawing the law paper
                 canvas.drawBitmap(
                         lawPaper.getBitmap(),
                         lawPaper.getX(),
                         lawPaper.getY(),
                         paint);
-            }
+            }*/
             canvas.drawText("Score: " + "25", 10, 100, paint);
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
