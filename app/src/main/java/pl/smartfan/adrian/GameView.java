@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.Random;
+
 public class GameView extends SurfaceView implements Runnable {
 
     public static boolean signedLawPaper, paperVisibility, userStarted = false;
@@ -25,6 +27,8 @@ public class GameView extends SurfaceView implements Runnable {
     //private LawPaper lawPaper;
     //bitmap array number
     private int bitmapNumber = 0;
+
+    private int x, y;
 
     //These objects will be used for drawing
     private TextPaint paint;
@@ -44,6 +48,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         //initializing second character object
         secondChar = new SecondChar(context);
+
+        //initializing papers object
+        papers = new Papers(context);
 
         //initializing law paper object
         //lawPaper = new LawPaper(context);
@@ -91,6 +98,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void draw() {
+        Random rand = new Random();
         //checking if surface is valid
         if (surfaceHolder.getSurface().isValid()) {
             //locking the canvas
@@ -110,6 +118,16 @@ public class GameView extends SurfaceView implements Runnable {
                     secondChar.getX(),
                     secondChar.getY(),
                     paint);
+            for (int i = 0; i < 5; i++) {
+                int x = rand.nextInt(1500 - 800) + 800;
+                int y = rand.nextInt(800 - 250) + 250;
+                //Drawing papers
+                canvas.drawBitmap(
+                        papers.getBitmap(),
+                        x,
+                        y,
+                        paint);
+            }
 /*            if (paperVisibility == true) {
                 //Drawing the law paper
                 canvas.drawBitmap(
