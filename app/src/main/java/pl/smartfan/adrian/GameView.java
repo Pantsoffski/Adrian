@@ -10,8 +10,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.util.Random;
-
 public class GameView extends SurfaceView implements Runnable {
 
     public static boolean signedLawPaper, paperVisibility, userStarted = false;
@@ -22,13 +20,13 @@ public class GameView extends SurfaceView implements Runnable {
     //adding second character to this class
     private SecondChar secondChar;
     //adding paper to this class
-    private Papers papers;
-    //adding law papers to this class
-    //private LawPaper lawPaper;
+    private Papers[] papers;
+
     //bitmap array number
     private int bitmapNumber = 0;
 
-    private int x, y;
+    //number of papers
+    private int papersCount = 5;
 
     //These objects will be used for drawing
     private TextPaint paint;
@@ -49,8 +47,11 @@ public class GameView extends SurfaceView implements Runnable {
         //initializing second character object
         secondChar = new SecondChar(context);
 
-        //initializing papers object
-        papers = new Papers(context);
+        //initializing papers object array
+        papers = new Papers[papersCount];
+        for (int i = 0; i < papersCount; i++) {
+            papers[i] = new Papers(context);
+        }
 
         //initializing law paper object
         //lawPaper = new LawPaper(context);
@@ -94,11 +95,13 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
         //updating player position
         //president.update();
-        //lawPaper.update();
+        //papers movement
+        for (int i = 0; i < papersCount; i++) {
+            papers[i].update();
+        }
     }
 
     private void draw() {
-        Random rand = new Random();
         //checking if surface is valid
         if (surfaceHolder.getSurface().isValid()) {
             //locking the canvas
@@ -106,36 +109,29 @@ public class GameView extends SurfaceView implements Runnable {
             //drawing a background image for canvas
             //canvas.drawBitmap(backgroundImage, 0, 0, null);
             canvas.drawColor(Color.WHITE);
+
             //Drawing the player
             canvas.drawBitmap(
                     president.getBitmap(bitmapNumber),
                     president.getX(),
                     president.getY(),
                     paint);
+
             //Drawing the second character
             canvas.drawBitmap(
                     secondChar.getBitmap(bitmapNumber),
                     secondChar.getX(),
                     secondChar.getY(),
                     paint);
-            for (int i = 0; i < 5; i++) {
-                int x = rand.nextInt(1500 - 800) + 800;
-                int y = rand.nextInt(800 - 250) + 250;
+            for (int i = 0; i < papersCount; i++) {
                 //Drawing papers
                 canvas.drawBitmap(
-                        papers.getBitmap(),
-                        x,
-                        y,
+                        papers[i].getBitmap(),
+                        papers[i].getX(),
+                        papers[i].getY(),
                         paint);
             }
-/*            if (paperVisibility == true) {
-                //Drawing the law paper
-                canvas.drawBitmap(
-                        lawPaper.getBitmap(),
-                        lawPaper.getX(),
-                        lawPaper.getY(),
-                        paint);
-            }*/
+
             canvas.drawText("Score: " + "25", 10, 100, paint);
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
