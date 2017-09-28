@@ -26,7 +26,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int bitmapNumber = 0;
 
     //number of papers
-    private int papersCount = 5;
+    private int papersCount = 4;
 
     //These objects will be used for drawing
     private TextPaint paint;
@@ -38,7 +38,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Bitmap backgroundImage = BitmapFactory.decodeResource(getResources(), R.mipmap.splash_screen);
 
     //Class constructor
-    public GameView(Context context) {
+    public GameView(Context context, int maxX, int maxY) {
         super(context);
 
         //initializing player object
@@ -50,7 +50,7 @@ public class GameView extends SurfaceView implements Runnable {
         //initializing papers object array
         papers = new Papers[papersCount];
         for (int i = 0; i < papersCount; i++) {
-            papers[i] = new Papers(context);
+            papers[i] = new Papers(context, maxX, maxY);
         }
 
         //initializing law paper object

@@ -1,7 +1,9 @@
 package pl.smartfan.adrian;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -13,8 +15,15 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        //Initializing game view object
-        gameView = new GameView(this);
+        //Getting display object
+        Display display = getWindowManager().getDefaultDisplay();
+
+        //Getting the screen resolution into point object
+        Point size = new Point();
+        display.getSize(size);
+
+        //Initializing game view object and passing screen size
+        gameView = new GameView(this, size.x, size.y);
 
         //adding it to contentView
         setContentView(gameView);
