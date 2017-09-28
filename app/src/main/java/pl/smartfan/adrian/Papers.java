@@ -30,32 +30,49 @@ public class Papers {
 
         shelf = rand.nextInt(3);
 
-        switch (shelf) {
-            // TODO: 28.09.2017 why only two appears? 
+        //paper should appear on random shelf
+        switch (shelf) { // TODO: 28.09.2017 put paper parts to corners
             case 0:
-                x = maxX - 500;
-                y = maxY / 2;
+                x = maxX / 4;
+                y = maxY / 4;
                 break;
             case 1:
-                x = maxX - 800;
-                y = maxY / 2;
+                x = maxX / 2 + maxX / 4;
+                y = maxY / 4;
                 break;
             case 2:
-                x = maxX - 1100;
-                y = maxY / 2;
+                x = maxX / 4;
+                y = maxY / 2 + maxY / 4;
                 break;
             case 3:
-                x = maxX - 1400;
-                y = maxY / 2;
+                x = maxX / 2 + maxX / 4;
+                y = maxY / 2 + maxY / 4;
                 break;
         }
     }
 
     public void update() {
-        // TODO: 28.09.2017 add Case here too, shelf dependant 
-        //update coordinates to make them move
-        x += 5;
-        y += 5;
+        // TODO: 28.09.2017 add Case here too, change coordinates shelf dependant
+        //update coordinates to make papers move
+        switch (shelf) {
+            case 0:
+                x += 5;
+                y += 5;
+                break;
+            case 1:
+                x -= 5;
+                y += 5;
+                break;
+            case 2:
+                x += 5;
+                y += 5;
+                break;
+            case 3:
+                x -= 5;
+                y += 5;
+                break;
+        }
+
         angle += 0.001f;
     }
 

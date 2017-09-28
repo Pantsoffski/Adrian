@@ -45,7 +45,7 @@ public class LawPaper {
     public void update() {
         if (paperVisibility == true) {
             //up and down movement
-/*            if (up == true && y >= ceiling && left == true && signedLawPaper == false) { // TODO: 13.09.2017 clean up code
+/*            if (up == true && y >= ceiling && left == true && signedLawPaper == false) {
                 y -= 10;
 
                 if (y == ceiling) {
