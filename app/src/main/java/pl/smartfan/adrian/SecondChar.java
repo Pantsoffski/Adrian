@@ -21,7 +21,7 @@ public class SecondChar {
 
     //constructor
     public SecondChar(Context context) {
-        x = 1300;
+        x = 1200;
         y = 470;
         frame = 0;
 

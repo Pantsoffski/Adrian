@@ -3,6 +3,7 @@ package pl.smartfan.adrian;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 /**
  * Main character (player) class.
@@ -16,29 +17,30 @@ public class President {
     private int x;
     private int y;
 
-    //animation frame
-    private int frame;
+    //creating a rect object
+    private Rect detectCollision;
 
     //constructor
     public President(Context context) {
-        x = 750;
+        x = 500;
         y = 500;
-        frame = 0;
 
         //Getting bitmap frames and put to array
         bitmap[0] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president);
         bitmap[1] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president2);
+
+        //initializing rect object
+        detectCollision = new Rect(x, y, bitmap[0].getWidth(), bitmap[0].getHeight());
     }
 
     //Method to update frame animation
-/*    public void update() {
-        //update current frame
-        if (frame == 0) {
-            frame = 1;
-        } else {
-            frame = 0;
-        }
-    }*/
+    public void update() {
+        //Adding the top, left, bottom and right to the rect object
+        detectCollision.left = x;
+        detectCollision.top = y;
+        detectCollision.right = x + bitmap[0].getWidth();
+        detectCollision.bottom = y + bitmap[0].getHeight();
+    }
 
     //getters
     public Bitmap getBitmap(int number) {
@@ -51,5 +53,10 @@ public class President {
 
     public int getY() {
         return y;
+    }
+
+    //one more getter for getting the rect object
+    public Rect getDetectCollision() {
+        return detectCollision;
     }
 }

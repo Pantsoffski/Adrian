@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.text.TextPaint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -34,11 +35,14 @@ public class GameView extends SurfaceView implements Runnable {
     private SurfaceHolder surfaceHolder;
     //private TextPaint textPaint;
 
+    //max display values
+    private int maxX, maxY;
+
     //background image
     private Bitmap backgroundImage = BitmapFactory.decodeResource(getResources(), R.mipmap.splash_screen);
 
     //Class constructor
-    public GameView(Context context, int maxX, int maxY) {
+    public GameView(Context context, int screenX, int screenY) {
         super(context);
 
         //initializing player object
@@ -50,8 +54,12 @@ public class GameView extends SurfaceView implements Runnable {
         //initializing papers object array
         papers = new Papers[papersCount];
         for (int i = 0; i < papersCount; i++) {
-            papers[i] = new Papers(context, maxX, maxY);
+            papers[i] = new Papers(context, screenX, screenY);
         }
+
+        //max screen dimensions
+        maxX = screenX;
+        maxY = screenY;
 
         //initializing law paper object
         //lawPaper = new LawPaper(context);
@@ -94,10 +102,18 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void update() {
         //updating player position
-        //president.update();
+        president.update();
         //papers movement
         for (int i = 0; i < papersCount; i++) {
             papers[i].update();
+        }
+
+        for (int i = 0; i < papersCount; i++) {
+            //if collision occurrs with player
+            if (Rect.intersects(president.getDetectCollision(), papers[i].getDetectCollision())) {
+                //moving enemy outside the left edge
+                papers[i].setX(+1200);
+            }
         }
     }
 
@@ -124,12 +140,15 @@ public class GameView extends SurfaceView implements Runnable {
                     secondChar.getY(),
                     paint);
             for (int i = 0; i < papersCount; i++) {
-                //Drawing papers
-                canvas.drawBitmap(
-                        papers[i].getBitmap(),
-                        papers[i].getX(),
-                        papers[i].getY(),
-                        paint);
+                //make sure coordinates are not larger than screen dimension
+                if (maxX > papers[i].getX() && maxY > papers[i].getY()) {
+                    //Drawing papers
+                    canvas.drawBitmap(
+                            papers[i].getBitmap(),
+                            papers[i].getX(),
+                            papers[i].getY(),
+                            paint);
+                }
             }
 
             canvas.drawText("Score: " + "25", 10, 100, paint);

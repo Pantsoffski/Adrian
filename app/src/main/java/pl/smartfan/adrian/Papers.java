@@ -3,7 +3,7 @@ package pl.smartfan.adrian;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
+import android.graphics.Rect;
 
 import java.util.Random;
 
@@ -12,43 +12,49 @@ import java.util.Random;
  */
 
 public class Papers {
-    private Matrix matrix = new Matrix();
+    //private Matrix matrix = new Matrix();
 
     //coordinates & angle
     private int x, y;
-    private float angle = 0;
+    //private float angle = 0;
 
     //random shelf
     private int shelf;
+
+    //creating a rect object
+    private Rect detectCollision;
 
     private Bitmap bitmap;
     private Random rand = new Random();
 
     public Papers(Context context, int maxX, int maxY) {
 
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.law_paper);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ball);
 
         shelf = rand.nextInt(3);
 
         //paper should appear on random shelf
         switch (shelf) { // TODO: 28.09.2017 put paper parts to corners
             case 0:
-                x = maxX / 4;
-                y = maxY / 4;
+                x = (maxX / 100) * 15;
+                y = (maxY / 100) * 25;
                 break;
             case 1:
-                x = maxX / 2 + maxX / 4;
-                y = maxY / 4;
+                x = (maxX / 100) * 85;
+                y = (maxY / 100) * 25;
                 break;
             case 2:
-                x = maxX / 4;
-                y = maxY / 2 + maxY / 4;
+                x = (maxX / 100) * 15;
+                y = (maxY / 100) * 75;
                 break;
             case 3:
-                x = maxX / 2 + maxX / 4;
-                y = maxY / 2 + maxY / 4;
+                x = (maxX / 100) * 85;
+                y = (maxY / 100) * 75;
                 break;
         }
+
+        //initializing rect object
+        detectCollision = new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
     }
 
     public void update() {
@@ -73,19 +79,35 @@ public class Papers {
                 break;
         }
 
-        angle += 0.001f;
+        //angle += 0.001f;
+
+        //Adding the top, left, bottom and right to the rect object
+        detectCollision.left = x;
+        detectCollision.top = y;
+        detectCollision.right = x + bitmap.getWidth();
+        detectCollision.bottom = y + bitmap.getHeight();
+    }
+
+    //one more getter for getting the rect object
+    public Rect getDetectCollision() {
+        return detectCollision;
     }
 
     //getters
     public Bitmap getBitmap() {
-        bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100, false); //bitmap scaling
-        matrix.postRotate(angle);
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, false); //bitmap scaling
+        //matrix.reset();
+        //matrix.postRotate(angle);
+        //bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         return bitmap;
     }
 
     public int getX() {
         return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
     }
 
     public int getY() {
