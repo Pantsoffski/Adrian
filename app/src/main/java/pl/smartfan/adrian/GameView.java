@@ -11,18 +11,19 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 public class GameView extends SurfaceView implements Runnable {
 
     public static boolean signedLawPaper, paperVisibility, userStarted = false;
+    //adding paper to this class
+    public ArrayList<Papers> papers;
     volatile boolean playing;
     private Thread gameThread = null;
     //adding the player to this class
     private President president;
     //adding second character to this class
     private SecondChar secondChar;
-    //adding paper to this class
-    private Papers[] papers;
-
     //bitmap array number
     private int bitmapNumber = 0;
 
@@ -51,10 +52,12 @@ public class GameView extends SurfaceView implements Runnable {
         //initializing second character object
         secondChar = new SecondChar(context);
 
-        //initializing papers object array
-        papers = new Papers[papersCount];
+        //initializing array list
+        papers = new ArrayList<>();
+
+        //put papers objects to array list
         for (int i = 0; i < papersCount; i++) {
-            papers[i] = new Papers(context, screenX, screenY);
+            papers.add(new Papers(context, screenX, screenY));
         }
 
         //max screen dimensions
@@ -105,14 +108,14 @@ public class GameView extends SurfaceView implements Runnable {
         president.update();
         //papers movement
         for (int i = 0; i < papersCount; i++) {
-            papers[i].update();
+            papers.get(i).update();
         }
 
         for (int i = 0; i < papersCount; i++) {
-            //if collision occurrs with player
-            if (Rect.intersects(president.getDetectCollision(), papers[i].getDetectCollision())) {
+            //if collision occurs with player
+            if (Rect.intersects(president.getDetectCollision(), papers.get(i).getDetectCollision())) {
                 //moving enemy outside the left edge
-                papers[i].setX(+1200);
+                papers.get(i).setX(-250);
             }
         }
     }
@@ -140,14 +143,18 @@ public class GameView extends SurfaceView implements Runnable {
                     secondChar.getY(),
                     paint);
             for (int i = 0; i < papersCount; i++) {
-                //make sure coordinates are not larger than screen dimension
-                if (maxX > papers[i].getX() && maxY > papers[i].getY()) {
+                //make sure coordinates are not larger than screen dimension and is not negative
+                if (maxX > papers.get(i).getX() && maxY > papers.get(i).getY() && papers.get(i).getX() >= 0) {
                     //Drawing papers
                     canvas.drawBitmap(
-                            papers[i].getBitmap(),
-                            papers[i].getX(),
-                            papers[i].getY(),
+                            papers.get(i).getBitmap(),
+                            papers.get(i).getX(),
+                            papers.get(i).getY(),
                             paint);
+                } else {
+                    papers.remove(i);
+                    --papersCount;
+
                 }
             }
 

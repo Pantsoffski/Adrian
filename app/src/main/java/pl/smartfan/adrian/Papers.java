@@ -34,7 +34,7 @@ public class Papers {
         shelf = rand.nextInt(3);
 
         //paper should appear on random shelf
-        switch (shelf) { // TODO: 28.09.2017 put paper parts to corners
+        switch (shelf) {
             case 0:
                 x = (maxX / 100) * 15;
                 y = (maxY / 100) * 25;
@@ -58,7 +58,6 @@ public class Papers {
     }
 
     public void update() {
-        // TODO: 28.09.2017 add Case here too, change coordinates shelf dependant
         //update coordinates to make papers move
         switch (shelf) {
             case 0:
