@@ -27,6 +27,9 @@ public class GameView extends SurfaceView implements Runnable {
     //bitmap array number
     private int bitmapNumber = 0;
 
+    //floor rect
+    private Rect floor;
+
     //number of papers
     private int papersCount = 4;
 
@@ -66,6 +69,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         //initializing law paper object
         //lawPaper = new LawPaper(context);
+
+        //initializing floor object
+        floor = new Rect(0, (maxY / 100) * 85, maxX, (maxY / 100) * 85 + 1);
 
         //initializing drawing objects
         surfaceHolder = getHolder();
@@ -112,10 +118,11 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         for (int i = 0; i < papersCount; i++) {
-            //if collision occurs with player
-            if (Rect.intersects(president.getDetectCollision(), papers.get(i).getDetectCollision())) {
-                //moving enemy outside the left edge
-                papers.get(i).setX(-250);
+            //if collision occurs with player or floor
+            if (Rect.intersects(president.getDetectCollision(), papers.get(i).getDetectCollision()) || Rect.intersects(floor, papers.get(i).getDetectCollision())) {
+                //remove from ArrayList
+                papers.remove(i);
+                --papersCount;
             }
         }
     }
