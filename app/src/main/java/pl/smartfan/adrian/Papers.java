@@ -31,25 +31,25 @@ public class Papers {
 
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ball);
 
-        shelf = rand.nextInt(3);
+        shelf = rand.nextInt(4);
 
         //paper should appear on random shelf
         switch (shelf) {
             case 0:
-                x = (maxX / 100) * 15;
+                x = (maxX / 100) * 10;
                 y = (maxY / 100) * 25;
                 break;
             case 1:
-                x = (maxX / 100) * 85;
+                x = (maxX / 100) * 90;
                 y = (maxY / 100) * 25;
                 break;
             case 2:
-                x = (maxX / 100) * 15;
-                y = (maxY / 100) * 75;
+                x = (maxX / 100) * 10;
+                y = (maxY / 100) * 45;
                 break;
             case 3:
-                x = (maxX / 100) * 85;
-                y = (maxY / 100) * 75;
+                x = (maxX / 100) * 90;
+                y = (maxY / 100) * 45;
                 break;
         }
 

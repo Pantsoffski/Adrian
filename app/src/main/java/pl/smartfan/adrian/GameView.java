@@ -23,7 +23,7 @@ public class GameView extends SurfaceView implements Runnable {
     //adding the player to this class
     private President president;
     //adding second character to this class
-    private SecondChar secondChar;
+    //private SecondChar secondChar;
     //bitmap array number
     private int bitmapNumber = 0;
 
@@ -49,11 +49,15 @@ public class GameView extends SurfaceView implements Runnable {
     public GameView(Context context, int screenX, int screenY) {
         super(context);
 
+        //max screen dimensions
+        maxX = screenX;
+        maxY = screenY;
+
         //initializing player object
-        president = new President(context);
+        president = new President(context, screenX, screenY);
 
         //initializing second character object
-        secondChar = new SecondChar(context);
+        //secondChar = new SecondChar(context);
 
         //initializing array list
         papers = new ArrayList<>();
@@ -62,10 +66,6 @@ public class GameView extends SurfaceView implements Runnable {
         for (int i = 0; i < papersCount; i++) {
             papers.add(new Papers(context, screenX, screenY));
         }
-
-        //max screen dimensions
-        maxX = screenX;
-        maxY = screenY;
 
         //initializing law paper object
         //lawPaper = new LawPaper(context);
@@ -80,6 +80,7 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setColor(Color.RED);
     }
 
+    //Reacts for touch press and release
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -113,18 +114,16 @@ public class GameView extends SurfaceView implements Runnable {
         //updating player position
         president.update();
         //papers movement
-        for (int i = 0; i < papersCount; i++) {
+        /*for (int i = 0; i < papersCount; i++) {
             papers.get(i).update();
-        }
 
-        for (int i = 0; i < papersCount; i++) {
             //if collision occurs with player or floor
             if (Rect.intersects(president.getDetectCollision(), papers.get(i).getDetectCollision()) || Rect.intersects(floor, papers.get(i).getDetectCollision())) {
                 //remove from ArrayList
                 papers.remove(i);
                 --papersCount;
             }
-        }
+        }*/
     }
 
     private void draw() {
@@ -144,11 +143,11 @@ public class GameView extends SurfaceView implements Runnable {
                     paint);
 
             //Drawing the second character
-            canvas.drawBitmap(
+            /*canvas.drawBitmap(
                     secondChar.getBitmap(bitmapNumber),
                     secondChar.getX(),
                     secondChar.getY(),
-                    paint);
+                    paint);*/
             for (int i = 0; i < papersCount; i++) {
                 //make sure coordinates are not larger than screen dimension and is not negative
                 if (maxX > papers.get(i).getX() && maxY > papers.get(i).getY() && papers.get(i).getX() >= 0) {

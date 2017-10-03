@@ -11,7 +11,7 @@ import android.graphics.Rect;
 
 public class President {
     //Bitmap, get character from image
-    private Bitmap[] bitmap = new Bitmap[2];
+    private Bitmap[] bitmap = new Bitmap[4];
 
     //coordinates
     private int x;
@@ -21,13 +21,16 @@ public class President {
     private Rect detectCollision;
 
     //constructor
-    public President(Context context) {
-        x = 500;
-        y = 500;
+    public President(Context context, int maxX, int maxY) {
+        //setting coordinates
+        x = (maxX / 100) * 50;
+        y = (maxY / 100) * 70;
 
         //Getting bitmap frames and put to array
-        bitmap[0] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president);
-        bitmap[1] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president2);
+        bitmap[0] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president_tl);
+        bitmap[1] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president_tr);
+        bitmap[2] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president_bl);
+        bitmap[3] = BitmapFactory.decodeResource(context.getResources(), R.mipmap.president_br);
 
         //initializing rect object
         detectCollision = new Rect(x, y, bitmap[0].getWidth(), bitmap[0].getHeight());
