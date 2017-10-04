@@ -86,17 +86,26 @@ public class GameView extends SurfaceView implements Runnable {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
                 //When the user presses on the screen
-                bitmapNumber = 0;
                 userStarted = true;
                 paperVisibility = true;
                 //signedLawPaper = lawPaper.getX() <= 750;
+                //player movement to corners
+                if (motionEvent.getRawX() < (maxX / 100) * 50 && motionEvent.getRawY() < (maxY / 100) * 50) {
+                    bitmapNumber = 0;
+                } else if (motionEvent.getRawX() > (maxX / 100) * 50 && motionEvent.getRawY() < (maxY / 100) * 50) {
+                    bitmapNumber = 1;
+                } else if (motionEvent.getRawX() < (maxX / 100) * 50 && motionEvent.getRawY() > (maxY / 100) * 50) {
+                    bitmapNumber = 2;
+                } else if (motionEvent.getRawX() > (maxX / 100) * 50 && motionEvent.getRawY() > (maxY / 100) * 50) {
+                    bitmapNumber = 3;
+                }
                 draw();
                 break;
-            case MotionEvent.ACTION_DOWN:
+            /*case MotionEvent.ACTION_DOWN:
                 //When the user releases the screen
-                bitmapNumber = 1;
+                bitmapNumber = 0;
                 draw();
-                break;
+                break;*/
         }
         return true;
     }
