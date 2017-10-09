@@ -12,7 +12,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -42,8 +41,6 @@ public class GameView extends SurfaceView implements Runnable {
     private SurfaceHolder surfaceHolder;
     //max display values
     private int maxX, maxY;
-    //for random numbers
-    private Random rand = new Random();
 
     //background image
     private Bitmap backgroundImage = BitmapFactory.decodeResource(getResources(), R.mipmap.splash_screen);
