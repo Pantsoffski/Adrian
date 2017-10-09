@@ -25,7 +25,7 @@ public class GameActivity extends AppCompatActivity {
         display.getSize(size);
 
         //Initializing game view object and passing screen size
-        gameView = new GameView(this, size.x, size.y); // TODO: 03.10.2017 make buttons appear on SurfaceView 
+        gameView = new GameView(this, size.x, size.y);
 
         //adding it to contentView
         setContentView(gameView);

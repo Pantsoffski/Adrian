@@ -12,6 +12,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -19,6 +20,8 @@ public class GameView extends SurfaceView implements Runnable {
     //adding paper to this class
     public ArrayList<Papers> papers;
     volatile boolean playing;
+    //context
+    Context context;
     private Thread gameThread = null;
     //adding the player to this class
     private President president;
@@ -26,21 +29,21 @@ public class GameView extends SurfaceView implements Runnable {
     //private SecondChar secondChar;
     //bitmap array number
     private int bitmapNumber = 0;
-
     //floor rect
     private Rect floor;
-
-    //number of papers
-    private int papersCount = 4;
-
+    //current number of papers
+    private int currentPapersCount;
+    //max number of papers
+    private int maxPapersCount = 4;
     //These objects will be used for drawing
     private TextPaint paint;
     private Canvas canvas;
-    private SurfaceHolder surfaceHolder;
     //private TextPaint textPaint;
-
+    private SurfaceHolder surfaceHolder;
     //max display values
     private int maxX, maxY;
+    //for random numbers
+    private Random rand = new Random();
 
     //background image
     private Bitmap backgroundImage = BitmapFactory.decodeResource(getResources(), R.mipmap.splash_screen);
@@ -48,6 +51,9 @@ public class GameView extends SurfaceView implements Runnable {
     //Class constructor
     public GameView(Context context, int screenX, int screenY) {
         super(context);
+
+        //set context
+        this.context = context;
 
         //max screen dimensions
         maxX = screenX;
@@ -62,10 +68,8 @@ public class GameView extends SurfaceView implements Runnable {
         //initializing array list
         papers = new ArrayList<>();
 
-        //put papers objects to array list
-        for (int i = 0; i < papersCount; i++) {
-            papers.add(new Papers(context, screenX, screenY));
-        }
+        //add papers objects
+        addPapers(true);
 
         //initializing law paper object
         //lawPaper = new LawPaper(context);
@@ -80,12 +84,28 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setColor(Color.RED);
     }
 
+    //add papers objects method
+    public void addPapers(boolean ignition) {
+        //put papers objects to array list (app just started or not dependant)
+        if (ignition) {
+            for (int i = 0; i < maxPapersCount; i++) {
+                papers.add(new Papers(context, maxX, maxY));
+                currentPapersCount++;
+            }
+        } else if (!ignition) {
+            for (int i = 0; i < currentPapersCount; i++) {
+                papers.add(new Papers(context, maxX, maxY));
+            }
+        }
+
+    }
+
     //Reacts for touch press and release
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                //When the user presses on the screen
+                //When the user touch the screen
                 userStarted = true;
                 paperVisibility = true;
                 //signedLawPaper = lawPaper.getX() <= 750;
@@ -98,11 +118,11 @@ public class GameView extends SurfaceView implements Runnable {
                     bitmapNumber = 2;
                 } else if (motionEvent.getRawX() > (maxX / 100) * 50 && motionEvent.getRawY() > (maxY / 100) * 50) {
                     bitmapNumber = 3;
-                }
+                } // TODO: 04.10.2017 make above code simpler 
                 draw();
                 break;
             /*case MotionEvent.ACTION_DOWN:
-                //When the user releases the screen
+                //When the user releases the touch
                 bitmapNumber = 0;
                 draw();
                 break;*/
@@ -123,16 +143,22 @@ public class GameView extends SurfaceView implements Runnable {
         //updating player position
         president.update();
         //papers movement
-        /*for (int i = 0; i < papersCount; i++) {
+        for (int i = 0; i < currentPapersCount; i++) {
             papers.get(i).update();
 
             //if collision occurs with player or floor
             if (Rect.intersects(president.getDetectCollision(), papers.get(i).getDetectCollision()) || Rect.intersects(floor, papers.get(i).getDetectCollision())) {
                 //remove from ArrayList
                 papers.remove(i);
-                --papersCount;
+                --currentPapersCount;
             }
-        }*/
+        }
+
+        //if there is no papers, add new, rand number of papers
+        if (currentPapersCount < maxPapersCount) {
+            currentPapersCount++;
+            addPapers(false);
+        }
     }
 
     private void draw() {
@@ -157,7 +183,7 @@ public class GameView extends SurfaceView implements Runnable {
                     secondChar.getX(),
                     secondChar.getY(),
                     paint);*/
-            for (int i = 0; i < papersCount; i++) {
+            for (int i = 0; i < currentPapersCount; i++) {
                 //make sure coordinates are not larger than screen dimension and is not negative
                 if (maxX > papers.get(i).getX() && maxY > papers.get(i).getY() && papers.get(i).getX() >= 0) {
                     //Drawing papers
@@ -168,7 +194,7 @@ public class GameView extends SurfaceView implements Runnable {
                             paint);
                 } else {
                     papers.remove(i);
-                    --papersCount;
+                    --currentPapersCount;
 
                 }
             }

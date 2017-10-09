@@ -19,7 +19,7 @@ public class Papers {
     //private float angle = 0;
 
     //random shelf
-    private int shelf;
+    private int shelf; // TODO: 09.10.2017 disable duplicate shelf/paper effect 
 
     //creating a rect object
     private Rect detectCollision;
@@ -32,6 +32,17 @@ public class Papers {
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ball);
 
         shelf = rand.nextInt(4);
+/*        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            list.add(i);
+        }
+        Collections.shuffle(list);*/
+
+        /*if (shelf < 3) {
+            shelf++;
+        } else {
+            shelf = 0;
+        }*/
 
         //paper should appear on random shelf
         switch (shelf) {
@@ -59,22 +70,27 @@ public class Papers {
 
     public void update() {
         //update coordinates to make papers move
+        int speed;
         switch (shelf) {
             case 0:
-                x += 5;
-                y += 5;
+                speed = calculateSpeed();
+                x += speed;
+                y += speed;
                 break;
             case 1:
-                x -= 5;
-                y += 5;
+                speed = calculateSpeed();
+                x -= speed;
+                y += speed;
                 break;
             case 2:
-                x += 5;
-                y += 5;
+                speed = calculateSpeed();
+                x += speed;
+                y += speed;
                 break;
             case 3:
-                x -= 5;
-                y += 5;
+                speed = calculateSpeed();
+                x -= speed;
+                y += speed;
                 break;
         }
 
@@ -85,6 +101,11 @@ public class Papers {
         detectCollision.top = y;
         detectCollision.right = x + bitmap.getWidth();
         detectCollision.bottom = y + bitmap.getHeight();
+    }
+
+    public int calculateSpeed() {
+        int speed = rand.nextInt(10) + 1;
+        return speed;
     }
 
     //one more getter for getting the rect object
