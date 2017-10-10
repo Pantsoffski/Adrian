@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.text.TextPaint;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -41,6 +40,8 @@ public class GameView extends SurfaceView implements Runnable {
     private SurfaceHolder surfaceHolder;
     //max display size values
     private int maxX, maxY;
+    //score
+    private int score = 25;
 
     //background image
     private Bitmap backgroundImage = BitmapFactory.decodeResource(getResources(), R.mipmap.splash_screen);
@@ -147,6 +148,7 @@ public class GameView extends SurfaceView implements Runnable {
                 //remove from ArrayList
                 papers.remove(i);
                 --currentPapersCount;
+                --score;
             }
         }
 
@@ -195,7 +197,7 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
 
-            canvas.drawText("Score: " + "25", 10, 100, paint);
+            canvas.drawText("Score: " + score, 10, 100, paint); // TODO: 10.10.2017 add points when player catch paper, remove life when drop it on floor
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
@@ -214,7 +216,7 @@ public class GameView extends SurfaceView implements Runnable {
         try {
             gameThread.join();
         } catch (InterruptedException e) {
-            Log.e("Exception:", "pause method error");
+            e.printStackTrace();
         }
     }
 
