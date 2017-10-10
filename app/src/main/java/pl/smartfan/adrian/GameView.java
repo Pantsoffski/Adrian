@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.text.TextPaint;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -33,13 +34,12 @@ public class GameView extends SurfaceView implements Runnable {
     //current number of papers
     private int currentPapersCount;
     //max number of papers
-    private int maxPapersCount = 4;
+    private int maxPapersCount = 1;
     //These objects will be used for drawing
     private TextPaint paint;
-    private Canvas canvas;
     //private TextPaint textPaint;
     private SurfaceHolder surfaceHolder;
-    //max display values
+    //max display size values
     private int maxX, maxY;
 
     //background image
@@ -68,9 +68,6 @@ public class GameView extends SurfaceView implements Runnable {
         //add papers objects
         addPapers(true);
 
-        //initializing law paper object
-        //lawPaper = new LawPaper(context);
-
         //initializing floor object
         floor = new Rect(0, (maxY / 100) * 85, maxX, (maxY / 100) * 85 + 1);
 
@@ -89,7 +86,7 @@ public class GameView extends SurfaceView implements Runnable {
                 papers.add(new Papers(context, maxX, maxY));
                 currentPapersCount++;
             }
-        } else if (!ignition) {
+        } else {
             for (int i = 0; i < currentPapersCount; i++) {
                 papers.add(new Papers(context, maxX, maxY));
             }
@@ -105,17 +102,19 @@ public class GameView extends SurfaceView implements Runnable {
                 //When the user touch the screen
                 userStarted = true;
                 paperVisibility = true;
-                //signedLawPaper = lawPaper.getX() <= 750;
+                float motionEventRawX = motionEvent.getRawX();
+                float motionEventRawY = motionEvent.getRawY();
+
                 //player movement to corners
-                if (motionEvent.getRawX() < (maxX / 100) * 50 && motionEvent.getRawY() < (maxY / 100) * 50) {
+                if (motionEventRawX < (maxX / 100) * 50 && motionEventRawY < (maxY / 100) * 50) {
                     bitmapNumber = 0;
-                } else if (motionEvent.getRawX() > (maxX / 100) * 50 && motionEvent.getRawY() < (maxY / 100) * 50) {
+                } else if (motionEventRawX > (maxX / 100) * 50 && motionEventRawY < (maxY / 100) * 50) {
                     bitmapNumber = 1;
-                } else if (motionEvent.getRawX() < (maxX / 100) * 50 && motionEvent.getRawY() > (maxY / 100) * 50) {
+                } else if (motionEventRawX < (maxX / 100) * 50 && motionEventRawY > (maxY / 100) * 50) {
                     bitmapNumber = 2;
-                } else if (motionEvent.getRawX() > (maxX / 100) * 50 && motionEvent.getRawY() > (maxY / 100) * 50) {
+                } else if (motionEventRawX > (maxX / 100) * 50 && motionEventRawY > (maxY / 100) * 50) {
                     bitmapNumber = 3;
-                } // TODO: 04.10.2017 make above code simpler 
+                }
                 draw();
                 break;
             /*case MotionEvent.ACTION_DOWN:
@@ -162,7 +161,7 @@ public class GameView extends SurfaceView implements Runnable {
         //checking if surface is valid
         if (surfaceHolder.getSurface().isValid()) {
             //locking the canvas
-            canvas = surfaceHolder.lockCanvas();
+            Canvas canvas = surfaceHolder.lockCanvas();
             //drawing a background image for canvas
             //canvas.drawBitmap(backgroundImage, 0, 0, null);
             canvas.drawColor(Color.WHITE);
@@ -215,6 +214,7 @@ public class GameView extends SurfaceView implements Runnable {
         try {
             gameThread.join();
         } catch (InterruptedException e) {
+            Log.e("Exception:", "pause method error");
         }
     }
 
