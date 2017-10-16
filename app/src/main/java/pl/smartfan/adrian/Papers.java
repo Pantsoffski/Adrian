@@ -26,8 +26,11 @@ public class Papers {
 
     private Bitmap bitmap;
     private Random rand = new Random();
+    private int screenX, screenY;
 
     public Papers(Context context, int maxX, int maxY) {
+        screenX = maxX;
+        screenY = maxY;
 
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ball);
 
@@ -47,20 +50,20 @@ public class Papers {
         //paper should appear on random shelf
         switch (shelf) {
             case 0:
-                x = (maxX / 100) * 10;
-                y = (maxY / 100) * 25;
+                x = (screenX / 100) * 10;
+                y = (screenY / 100) * 25;
                 break;
             case 1:
-                x = (maxX / 100) * 90;
-                y = (maxY / 100) * 25;
+                x = (screenX / 100) * 90;
+                y = (screenY / 100) * 25;
                 break;
             case 2:
-                x = (maxX / 100) * 10;
-                y = (maxY / 100) * 45;
+                x = (screenX / 100) * 10;
+                y = (screenY / 100) * 45;
                 break;
             case 3:
-                x = (maxX / 100) * 90;
-                y = (maxY / 100) * 45;
+                x = (screenX / 100) * 90;
+                y = (screenY / 100) * 45;
                 break;
         }
 
@@ -71,26 +74,48 @@ public class Papers {
     public void update() {
         //update coordinates to make papers move
         int speed;
+        int dropMultiplier = 3;
+        int shelfSlopingDegree = 1;
         switch (shelf) {
             case 0:
                 speed = calculateSpeed();
-                x += speed;
-                y += speed;
+                //simulate shelf edge (paper drop)
+                if (x > ((screenX / 100) * 30)) {
+                    y += speed * dropMultiplier;
+                } else {
+                    x += speed;
+                    y += shelfSlopingDegree;
+                }
                 break;
             case 1:
                 speed = calculateSpeed();
-                x -= speed;
-                y += speed;
+
+                if (x < ((screenX / 100) * 70)) {
+                    y += speed * dropMultiplier;
+                } else {
+                    x -= speed;
+                    y += shelfSlopingDegree;
+                }
                 break;
             case 2:
                 speed = calculateSpeed();
-                x += speed;
-                y += speed;
+
+                if (x > ((screenX / 100) * 30)) {
+                    y += speed * dropMultiplier;
+                } else {
+                    x += speed;
+                    y += shelfSlopingDegree;
+                }
                 break;
             case 3:
                 speed = calculateSpeed();
-                x -= speed;
-                y += speed;
+
+                if (x < ((screenX / 100) * 70)) {
+                    y += speed * dropMultiplier;
+                } else {
+                    x -= speed;
+                    y += shelfSlopingDegree;
+                }
                 break;
         }
 

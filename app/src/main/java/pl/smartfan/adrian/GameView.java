@@ -42,6 +42,8 @@ public class GameView extends SurfaceView implements Runnable {
     private int maxX, maxY;
     //score
     private int score = 25;
+    //number of lives
+    private int lives = 3;
 
     //background image
     private Bitmap backgroundImage = BitmapFactory.decodeResource(getResources(), R.mipmap.splash_screen);
@@ -148,7 +150,7 @@ public class GameView extends SurfaceView implements Runnable {
                 //remove from ArrayList
                 papers.remove(i);
                 --currentPapersCount;
-                --score;
+                --lives;
             }
         }
 
@@ -197,7 +199,7 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
 
-            canvas.drawText("Score: " + score, 10, 100, paint); // TODO: 10.10.2017 add points when player catch paper, remove life when drop it on floor
+            canvas.drawText("Score: " + score + " Lives: " + lives, 10, 100, paint); // TODO: 10.10.2017 add points when player catch paper, remove life when drop it on floor
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
