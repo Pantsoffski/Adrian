@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.TextPaint;
 import android.view.MotionEvent;
@@ -72,8 +73,8 @@ public class GameView extends SurfaceView implements Runnable {
         addPapers(true);
 
         //initializing floor and default desk object
-        floor = new Rect(0, (maxY / 100) * 85, maxX, (maxY / 100) * 85 + 1);
-        desk = new Rect(0, (maxY / 100) * 40, maxX / 50, (maxY / 100) * 40 + 1); //top left basket
+        floor = new Rect(0, (maxY / 100) * 85, maxX, (maxY / 100) * 85);
+        desk = new Rect((maxX / 100) * 25, (maxY / 100) * 40, (maxX / 100) * 35, (maxY / 100) * 40); //top left basket
 
         //initializing drawing objects
         surfaceHolder = getHolder();
@@ -112,16 +113,16 @@ public class GameView extends SurfaceView implements Runnable {
                 //player movement to corners
                 if (motionEventRawX < (maxX / 100) * 50 && motionEventRawY < (maxY / 100) * 50) {
                     bitmapNumber = 0;
-                    desk = new Rect(0, (maxY / 100) * 40, maxX / 50, (maxY / 100) * 40 + 1); //top left basket
+                    desk = new Rect((maxX / 100) * 25, (maxY / 100) * 40, (maxX / 100) * 35, (maxY / 100) * 40); //top left basket
                 } else if (motionEventRawX > (maxX / 100) * 50 && motionEventRawY < (maxY / 100) * 50) {
                     bitmapNumber = 1;
-                    desk = new Rect(maxX / 50, (maxY / 100) * 40, maxX, (maxY / 100) * 40 + 1); //top right basket
+                    desk = new Rect((maxX / 100) * 75, (maxY / 100) * 40, (maxX / 100) * 65, (maxY / 100) * 40); //top right basket
                 } else if (motionEventRawX < (maxX / 100) * 50 && motionEventRawY > (maxY / 100) * 50) {
                     bitmapNumber = 2;
-                    desk = new Rect(0, (maxY / 100) * 80, maxX / 50, (maxY / 100) * 80 + 1); //bottom left basket
+                    desk = new Rect((maxX / 100) * 25, (maxY / 100) * 80, (maxX / 100) * 35, (maxY / 100) * 80); //bottom left basket
                 } else if (motionEventRawX > (maxX / 100) * 50 && motionEventRawY > (maxY / 100) * 50) {
                     bitmapNumber = 3;
-                    desk = new Rect(maxX / 50, (maxY / 100) * 80, maxX, (maxY / 100) * 80 + 1); //bottom right basket // TODO: 16.10.2017 fix rect (baskets) positions 
+                    desk = new Rect((maxX / 100) * 75, (maxY / 100) * 80, (maxX / 100) * 65, (maxY / 100) * 80); //bottom right basket
                 }
                 draw();
                 break;
@@ -146,29 +147,28 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
         //updating player position
         president.update();
-        //paper catch
-        //boolean paperCatch = false;
 
         //papers movement
         for (int i = 0; i < currentPapersCount; i++) {
             papers.get(i).update();
+            Rect papersCollision = papers.get(i).getDetectCollision();
 
             //add score if needed
-            if (Rect.intersects(desk, papers.get(i).getDetectCollision())) {
-                //papers.remove(i);
-                score++;
-                //paperCatch = true;
+            if (Rect.intersects(desk, papersCollision)) { // TODO: 16.10.2017 doesn't work on right side, fix that 
+                //remove from ArrayList
+                papers.remove(i);
+                --currentPapersCount;
+                ++score;
+                continue;
             }
 
-            //if collision occurs with player or floor
-            //if (!paperCatch) {
-            if (Rect.intersects(president.getDetectCollision(), papers.get(i).getDetectCollision()) || Rect.intersects(floor, papers.get(i).getDetectCollision())) {
+            //if collision occurs with floor
+            if (Rect.intersects(floor, papersCollision)) {
                 //remove from ArrayList
                 papers.remove(i);
                 --currentPapersCount;
                 --lives;
             }
-            //}
         }
 
         //if there is no papers, add new, rand number of papers
@@ -215,6 +215,10 @@ public class GameView extends SurfaceView implements Runnable {
 
                 }
             }
+
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(desk, paint);
 
             canvas.drawText("Score: " + score + " Lives: " + lives, 10, 100, paint); // TODO: 10.10.2017 add points when player catch paper, remove life when drop it on floor
             //Unlocking the canvas
