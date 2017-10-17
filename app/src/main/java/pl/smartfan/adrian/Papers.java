@@ -19,7 +19,10 @@ public class Papers {
     //private float angle = 0;
 
     //random shelf
-    private int shelf; // TODO: 09.10.2017 disable duplicate shelf/paper effect 
+    private int shelf;
+
+    //speed level
+    private int leveledSpeed = 1;
 
     //creating a rect object
     private Rect detectCollision;
@@ -129,8 +132,8 @@ public class Papers {
     }
 
     public int calculateSpeed() {
-        int speed = rand.nextInt(10) + 1;
-        return speed;
+        int randSpeed = rand.nextInt(5) + leveledSpeed;
+        return randSpeed;
     }
 
     //one more getter for getting the rect object
@@ -151,8 +154,8 @@ public class Papers {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setSpeed(int speed) {
+        this.leveledSpeed = speed;
     }
 
     public int getY() {
