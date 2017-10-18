@@ -44,8 +44,11 @@ public class GameView extends SurfaceView implements Runnable {
     private SurfaceHolder surfaceHolder;
     //max display size values
     private int maxX, maxY;
-    //score
+    //score & level
     private int score = 0;
+    private int level = 1;
+    private int oldLevel = 0;
+    private int levelTimer = 0;
     //number of lives
     private int lives = 3;
 
@@ -166,12 +169,14 @@ public class GameView extends SurfaceView implements Runnable {
             if (Rect.intersects(desk, papersCollision)) {
                 //remove from ArrayList
                 papers.remove(i);
-                --currentPapersCount;
-                ++score;
+                currentPapersCount--;
+                score++;
 
                 //add level if score grows
-                if (score == 5) { // TODO: 17.10.2017 level up means speed up, make it work 
-                    presidentPapers.setSpeed(25);
+                if (score % 10 == 0) {
+                    presidentPapers.setSpeed(2);
+                    maxPapersCount += 1;
+                    level++;
                 }
 
                 continue;
@@ -237,10 +242,12 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
 
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setColor(Color.BLACK);
-            canvas.drawRect(desk, paint);
+            //paint.setStyle(Paint.Style.STROKE);
+            //paint.setColor(Color.BLACK);
+            //canvas.drawRect(desk, paint);
 
+            paint.setTextSize(90);
+            paint.setTextAlign(Paint.Align.LEFT);
             canvas.drawText("Score: " + score + " Lives: " + lives, 10, 100, paint);
 
             //draw game over text when the game is over
@@ -250,6 +257,22 @@ public class GameView extends SurfaceView implements Runnable {
 
                 int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
                 canvas.drawText("Game Over", canvas.getWidth() / 2, yPos, paint);
+            }
+
+            //show level number, use levelTimer variable to count time to show text
+            if (oldLevel < level && levelTimer < 100 && !gameOver) {
+                paint.setTextSize(150);
+                paint.setTextAlign(Paint.Align.CENTER);
+
+                int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+                canvas.drawText("Level:" + level, canvas.getWidth() / 2, yPos, paint);
+                levelTimer++;
+
+                //reset levelTimer
+                if (levelTimer == 100) {
+                    oldLevel++;
+                    levelTimer = 0;
+                }
             }
 
             //Unlocking the canvas
