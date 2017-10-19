@@ -37,18 +37,9 @@ public class Papers {
 
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ball);
 
-        shelf = rand.nextInt(4);
-/*        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            list.add(i);
-        }
-        Collections.shuffle(list);*/
+        //shelf = rand.nextInt(4);
 
-        /*if (shelf < 3) {
-            shelf++;
-        } else {
-            shelf = 0;
-        }*/
+        shelf = calculateShelf();
 
         //paper should appear on random shelf
         switch (shelf) { // TODO: 18.10.2017 duplicate papers on one shelf, fix that
@@ -134,6 +125,25 @@ public class Papers {
     public int calculateSpeed() {
         int randSpeed = rand.nextInt(5) + leveledSpeed;
         return randSpeed;
+    }
+
+    private int calculateShelf() {
+/*        int shelfsNumber = 4;
+        Set<Integer> shelfGenerated = new LinkedHashSet<>();
+
+        while (shelfGenerated.size() < shelfsNumber) {
+            Integer next =
+        }*/
+/*        int shelfCalc = shelf;
+        if (shelfCalc < 3) {
+            shelfCalc++;
+        } else {
+            shelfCalc = 0;
+        }*/
+
+        int shelfCalc = rand.nextInt(4);
+
+        return shelfCalc;
     }
 
     //one more getter for getting the rect object

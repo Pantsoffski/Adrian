@@ -37,7 +37,7 @@ public class GameView extends SurfaceView implements Runnable {
     //current number of papers
     private int currentPapersCount;
     //max number of papers
-    private int maxPapersCount = 1;
+    private int maxPapersCount = 2;
     //These objects will be used for drawing
     private TextPaint paint;
     //private TextPaint textPaint;
