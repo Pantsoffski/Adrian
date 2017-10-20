@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,13 +18,13 @@ import java.util.Random;
 public class Papers {
     //private Matrix matrix = new Matrix();
 
+    //last shelf int
+    private static int lastShelf;
+    //private float angle = 0;
     //coordinates & angle
     private int x, y;
-    //private float angle = 0;
-
     //random shelf
     private int shelf;
-
     //speed level
     private int leveledSpeed = 1;
 
@@ -127,21 +131,22 @@ public class Papers {
         return randSpeed;
     }
 
+    //get random shelf number and not duplicate last shelf
     private int calculateShelf() {
-/*        int shelfsNumber = 4;
-        Set<Integer> shelfGenerated = new LinkedHashSet<>();
+        List<Integer> shelfCollection = new ArrayList<>();
+        if (shelfCollection.size() == 0) {
+            shelfCollection.addAll(Arrays.asList(0, 1, 2, 3));
+        }
+        Collections.shuffle(shelfCollection);
 
-        while (shelfGenerated.size() < shelfsNumber) {
-            Integer next =
-        }*/
-/*        int shelfCalc = shelf;
-        if (shelfCalc < 3) {
-            shelfCalc++;
-        } else {
-            shelfCalc = 0;
-        }*/
+        while (shelfCollection.get(0) == lastShelf) {
+            Collections.shuffle(shelfCollection);
+        }
 
-        int shelfCalc = rand.nextInt(4);
+        int shelfCalc = shelfCollection.get(0);
+        shelfCollection.remove(0);
+
+        lastShelf = shelfCalc;
 
         return shelfCalc;
     }
