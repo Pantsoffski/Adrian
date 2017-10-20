@@ -46,7 +46,7 @@ public class Papers {
         shelf = calculateShelf();
 
         //paper should appear on random shelf
-        switch (shelf) { // TODO: 18.10.2017 duplicate papers on one shelf, fix that
+        switch (shelf) {
             case 0:
                 x = (screenX / 100) * 10;
                 y = (screenY / 100) * 25;

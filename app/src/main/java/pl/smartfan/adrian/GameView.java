@@ -33,11 +33,11 @@ public class GameView extends SurfaceView implements Runnable {
     //bitmap array number
     private int bitmapNumber = 0;
     //floor rect and desk (basket) rect
-    private Rect floor, desk;
+    private Rect floor, desk, deskTopLeft, deskTopRight, deskBottomLeft, deskBottomRight;
     //current number of papers
     private int currentPapersCount;
     //max number of papers
-    private int maxPapersCount = 2;
+    private int maxPapersCount = 1;
     //These objects will be used for drawing
     private TextPaint paint;
     //private TextPaint textPaint;
@@ -84,9 +84,16 @@ public class GameView extends SurfaceView implements Runnable {
         //add papers objects
         addPapers(true);
 
-        //initializing floor and default desk object
-        floor = new Rect(0, (maxY / 100) * 85, maxX, (maxY / 100) * 85);
-        desk = new Rect((maxX / 100) * 25, (maxY / 100) * 40, (maxX / 100) * 35, (maxY / 100) * 40); //top left basket
+        //initializing floor and desks objects
+        floor = new Rect(0, (maxY / 100) * 95, maxX, (maxY / 100) * 95);
+        deskTopLeft = new Rect((maxX / 100) * 25, (maxY / 100) * 50, (maxX / 100) * 35, (maxY / 100) * 50); //top left basket
+        deskTopRight = new Rect((maxX / 100) * 65, (maxY / 100) * 50, (maxX / 100) * 75, (maxY / 100) * 50); //top right basket
+        deskBottomLeft = new Rect((maxX / 100) * 25, (maxY / 100) * 80, (maxX / 100) * 35, (maxY / 100) * 80); //bottom left basket
+        deskBottomRight = new Rect((maxX / 100) * 65, (maxY / 100) * 80, (maxX / 100) * 75, (maxY / 100) * 80); //bottom right basket
+
+        //set default basket
+        desk = deskTopLeft;
+
 
         //initializing drawing objects
         surfaceHolder = getHolder();
@@ -125,16 +132,16 @@ public class GameView extends SurfaceView implements Runnable {
                 //player movement to corners
                 if (motionEventRawX < (maxX / 100) * 50 && motionEventRawY < (maxY / 100) * 50) {
                     bitmapNumber = 0;
-                    desk = new Rect((maxX / 100) * 25, (maxY / 100) * 40, (maxX / 100) * 35, (maxY / 100) * 40); //top left basket
+                    desk = deskTopLeft; //top left basket
                 } else if (motionEventRawX > (maxX / 100) * 50 && motionEventRawY < (maxY / 100) * 50) {
                     bitmapNumber = 1;
-                    desk = new Rect((maxX / 100) * 65, (maxY / 100) * 40, (maxX / 100) * 75, (maxY / 100) * 40); //top right basket
+                    desk = deskTopRight; //top right basket
                 } else if (motionEventRawX < (maxX / 100) * 50 && motionEventRawY > (maxY / 100) * 50) {
                     bitmapNumber = 2;
-                    desk = new Rect((maxX / 100) * 25, (maxY / 100) * 80, (maxX / 100) * 35, (maxY / 100) * 80); //bottom left basket
+                    desk = deskBottomLeft; //bottom left basket
                 } else if (motionEventRawX > (maxX / 100) * 50 && motionEventRawY > (maxY / 100) * 50) {
                     bitmapNumber = 3;
-                    desk = new Rect((maxX / 100) * 65, (maxY / 100) * 80, (maxX / 100) * 75, (maxY / 100) * 80); //bottom right basket
+                    desk = deskBottomRight; //bottom right basket
                 }
                 draw();
                 break;
@@ -220,7 +227,7 @@ public class GameView extends SurfaceView implements Runnable {
                     president.getY(),
                     paint);
 
-            //Drawing the second character
+            //Drawing the second character // TODO: 20.10.2017 draw second character, put some funny sentences thet he talks to Adrian 
             /*canvas.drawBitmap(
                     secondChar.getBitmap(bitmapNumber),
                     secondChar.getX(),
@@ -242,9 +249,9 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
 
-            //paint.setStyle(Paint.Style.STROKE);
-            //paint.setColor(Color.BLACK);
-            //canvas.drawRect(desk, paint);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(desk, paint);
 
             paint.setTextSize(90);
             paint.setTextAlign(Paint.Align.LEFT);
