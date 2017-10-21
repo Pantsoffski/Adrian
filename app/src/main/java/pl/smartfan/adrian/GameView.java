@@ -145,11 +145,6 @@ public class GameView extends SurfaceView implements Runnable {
                 }
                 draw();
                 break;
-            /*case MotionEvent.ACTION_DOWN:
-                //When the user releases the touch
-                bitmapNumber = 0;
-                draw();
-                break;*/
         }
         return true;
     }
@@ -227,12 +222,16 @@ public class GameView extends SurfaceView implements Runnable {
                     president.getY(),
                     paint);
 
-            //Drawing the second character // TODO: 20.10.2017 draw second character, put some funny sentences thet he talks to Adrian 
+            //Drawing the second character // TODO: 20.10.2017 draw second character, put some funny sentences thet he talks to Adrian
             /*canvas.drawBitmap(
                     secondChar.getBitmap(bitmapNumber),
                     secondChar.getX(),
                     secondChar.getY(),
                     paint);*/
+
+            TalkingBubble rect = new TalkingBubble(context, maxX, maxY, "Sample of text", paint);
+            canvas.drawRoundRect(rect.getBubble(), 30, 30, paint);
+
             for (int i = 0; i < currentPapersCount; i++) {
                 //make sure coordinates are not larger than screen dimension and is not negative
                 if (maxX > papers.get(i).getX() && maxY > papers.get(i).getY() && papers.get(i).getX() >= 0) {
