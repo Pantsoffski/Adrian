@@ -1,5 +1,6 @@
 package pl.smartfan.adrian;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
@@ -9,25 +10,27 @@ import android.graphics.Rect;
 
 public class TalkingBubble {
 
-    private int screenX, screenY;
-    private String text;
-
     //creating a rect object
     private Rect rectRoundBubble;
+    //sentence
+    private String sentence;
 
-    public TalkingBubble(int maxX, int maxY, String text, Paint paint) {
-        screenX = maxX;
-        screenY = maxY;
-        this.text = text;
+    public TalkingBubble(Context context, int maxX, int maxY, Paint paint) {
+
+        sentence = context.getString(R.string.funny_Sentence_1);
 
         rectRoundBubble = new Rect();
 
-        paint.getTextBounds(text, 0, text.length(), rectRoundBubble); // TODO: 21.10.2017 get rect and put text inside
+        paint.getTextBounds(sentence, 0, sentence.length(), rectRoundBubble); // TODO: 21.10.2017 get rect and put text inside
 
         rectRoundBubble.offset((maxX / 100) * 15, (maxY / 100) * 20);
     }
 
     public Rect getBubble() {
         return rectRoundBubble;
+    }
+
+    public String getSentence() {
+        return sentence;
     }
 }

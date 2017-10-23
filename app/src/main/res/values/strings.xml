@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Adrian</string>
+    <string name="funny_Sentence_1">Go go go!</string>
+    <string name="funny_Sentence_2">Go go go 2!</string>
+    <string name="funny_Sentence_3">Go go go 3!</string>
+    <string name="funny_Sentence_4">Go go go 4!</string>
 </resources>

@@ -230,8 +230,9 @@ public class GameView extends SurfaceView implements Runnable {
                     paint);*/
 
             //paint.setTextSize(400);
-            TalkingBubble rect = new TalkingBubble(maxX, maxY, "Sample of text", paint);
+            TalkingBubble rect = new TalkingBubble(context, maxX, maxY, paint);
             canvas.drawRect(rect.getBubble(), paint);
+            canvas.drawText(rect.getSentence(), rect.getBubble().left / rect.getBubble().top, rect.getBubble().right / rect.getBubble().bottom, paint); // TODO: 23.10.2017 find how to calculate good coordinates for sentence
 
             for (int i = 0; i < currentPapersCount; i++) {
                 //make sure coordinates are not larger than screen dimension and is not negative
@@ -262,7 +263,7 @@ public class GameView extends SurfaceView implements Runnable {
                 paint.setTextSize(150);
                 paint.setTextAlign(Paint.Align.CENTER);
 
-                int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+                int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)); // TODO: 23.10.2017 try to simplify this part of code
                 canvas.drawText("Game Over", canvas.getWidth() / 2, yPos, paint);
             }
 
