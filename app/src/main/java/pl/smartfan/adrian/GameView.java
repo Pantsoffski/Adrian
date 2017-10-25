@@ -229,10 +229,13 @@ public class GameView extends SurfaceView implements Runnable {
                     secondChar.getY(),
                     paint);*/
 
-            //paint.setTextSize(400);
-            TalkingBubble rect = new TalkingBubble(context, maxX, maxY, paint);
+            //drawing talking bubble
+            TalkingBubble rect = new TalkingBubble(context, maxX, maxY);
             canvas.drawRect(rect.getBubble(), paint);
-            canvas.drawText(rect.getSentence(), rect.getBubble().left / rect.getBubble().top, rect.getBubble().right / rect.getBubble().bottom, paint); // TODO: 23.10.2017 find how to calculate good coordinates for sentence
+            canvas.save();
+            canvas.translate(rect.getBubble().left, rect.getBubble().top);
+            rect.getText().draw(canvas);
+            canvas.restore();
 
             for (int i = 0; i < currentPapersCount; i++) {
                 //make sure coordinates are not larger than screen dimension and is not negative
@@ -255,25 +258,25 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawRect(desk, paint);
 
             paint.setTextSize(90);
-            paint.setTextAlign(Paint.Align.LEFT);
             canvas.drawText("Score: " + score + " Lives: " + lives, 10, 100, paint);
 
             //draw game over text when the game is over
             if (gameOver) {
                 paint.setTextSize(150);
-                paint.setTextAlign(Paint.Align.CENTER);
 
                 int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)); // TODO: 23.10.2017 try to simplify this part of code
-                canvas.drawText("Game Over", canvas.getWidth() / 2, yPos, paint);
+                int xPos = (int) ((canvas.getWidth() / 2) + ((paint.descent() + paint.ascent()) * 2));
+                canvas.drawText("Game Over", xPos, yPos, paint);
             }
 
             //show level number, use levelTimer variable to count time to show text
             if (oldLevel < level && levelTimer < 100 && !gameOver) {
+                canvas.save();
                 paint.setTextSize(150);
-                paint.setTextAlign(Paint.Align.CENTER);
 
                 int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
-                canvas.drawText("Level:" + level, canvas.getWidth() / 2, yPos, paint);
+                int xPos = (int) ((canvas.getWidth() / 2) + ((paint.descent() + paint.ascent()) * 2));
+                canvas.drawText("Level:" + level, xPos, yPos, paint);
                 levelTimer++;
 
                 //reset levelTimer
@@ -281,6 +284,7 @@ public class GameView extends SurfaceView implements Runnable {
                     oldLevel++;
                     levelTimer = 0;
                 }
+                canvas.restore();
             }
 
             //Unlocking the canvas

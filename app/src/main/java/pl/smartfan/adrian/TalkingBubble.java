@@ -1,8 +1,12 @@
 package pl.smartfan.adrian;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.graphics.Rect;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
+
+import java.util.Random;
 
 /**
  * Class responsible for text bubble.
@@ -13,24 +17,33 @@ public class TalkingBubble {
     //creating a rect object
     private Rect rectRoundBubble;
     //sentence
-    private String sentence;
+    private String[] sentences;
+    //text to push
+    private StaticLayout sl;
+    //random sentence
+    private Random r = new Random();
 
-    public TalkingBubble(Context context, int maxX, int maxY, Paint paint) {
+    public TalkingBubble(Context context, int maxX, int maxY) {
 
-        sentence = context.getString(R.string.funny_Sentence_1);
+        sentences = context.getResources().getStringArray(R.array.funny_sentences);
 
-        rectRoundBubble = new Rect();
+        int randomSentence = r.nextInt(sentences.length);
 
-        paint.getTextBounds(sentence, 0, sentence.length(), rectRoundBubble); // TODO: 21.10.2017 get rect and put text inside
+        TextPaint textPaint = new TextPaint();
 
-        rectRoundBubble.offset((maxX / 100) * 15, (maxY / 100) * 20);
+        textPaint.setTextSize(40);
+
+        sl = new StaticLayout(sentences[randomSentence], textPaint, (maxX / 100) * 20, Layout.Alignment.ALIGN_CENTER, 1, 1, true);
+
+        rectRoundBubble = new Rect((maxX / 100) * 15, (maxY / 100) * 20, (maxX / 100) * 15 + sl.getWidth(), (maxY / 100) * 20 + sl.getHeight());
     }
 
     public Rect getBubble() {
         return rectRoundBubble;
     }
 
-    public String getSentence() {
-        return sentence;
+    public StaticLayout getText() {
+        return sl;
     }
+
 }

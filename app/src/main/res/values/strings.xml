@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Adrian</string>
-    <string name="funny_Sentence_1">Go go go!</string>
-    <string name="funny_Sentence_2">Go go go 2!</string>
-    <string name="funny_Sentence_3">Go go go 3!</string>
-    <string name="funny_Sentence_4">Go go go 4!</string>
+    <string-array name="funny_sentences">
+        <item>The bacteria in your large intestine ferment any undigested carbs</item>
+        <item>Hanks films have grossed more than $4.5 billion at U.S</item>
+        <item>Hanks as a successful director, producer, and screenwriter</item>
+        <item>In 2004, he received the Stanley Kubrick Britannia Award for Excellence</item>
+    </string-array>
 </resources>
