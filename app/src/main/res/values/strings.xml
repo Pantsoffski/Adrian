@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Adrian</string>
+    <string name="game_over">Game Over</string>
+    <string name="score">Score:</string>
+    <string name="level">Level:</string>
+    <string name="lives">Lives:</string>
     <string-array name="funny_sentences">
         <item>The bacteria in your large intestine ferment any undigested carbs</item>
         <item>Hanks films have grossed more than $4.5 billion at U.S</item>

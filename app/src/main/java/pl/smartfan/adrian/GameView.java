@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class GameView extends SurfaceView implements Runnable {
 
-    public static boolean signedLawPaper, paperVisibility, userStarted = false;
+    public static boolean paperVisibility, userStarted = false;
     //adding paper to this class
     public ArrayList<Papers> papers;
     //is player playing and is game over
@@ -49,6 +49,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int level = 1;
     private int oldLevel = 0;
     private int levelTimer = 0;
+    private int talkingBubbleTimer = 0;
     //number of lives
     private int lives = 3;
 
@@ -155,6 +156,7 @@ public class GameView extends SurfaceView implements Runnable {
             update();
             draw();
             control();
+            talkingBubbleTimer++;
         }
     }
 
@@ -230,12 +232,14 @@ public class GameView extends SurfaceView implements Runnable {
                     paint);*/
 
             //drawing talking bubble
-            TalkingBubble rect = new TalkingBubble(context, maxX, maxY);
-            canvas.drawRect(rect.getBubble(), paint);
-            canvas.save();
-            canvas.translate(rect.getBubble().left, rect.getBubble().top);
-            rect.getText().draw(canvas);
-            canvas.restore();
+            if (talkingBubbleTimer % 200 == 0) { // TODO: 26.10.2017 it should appear for few seconds 
+                TalkingBubble rect = new TalkingBubble(context, maxX, maxY);
+                canvas.drawRect(rect.getBubble(), paint);
+                canvas.save();
+                canvas.translate(rect.getBubble().left, rect.getBubble().top);
+                rect.getText().draw(canvas);
+                canvas.restore();
+            }
 
             for (int i = 0; i < currentPapersCount; i++) {
                 //make sure coordinates are not larger than screen dimension and is not negative
@@ -249,7 +253,6 @@ public class GameView extends SurfaceView implements Runnable {
                 } else {
                     papers.remove(i);
                     --currentPapersCount;
-
                 }
             }
 
@@ -258,25 +261,24 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawRect(desk, paint);
 
             paint.setTextSize(90);
-            canvas.drawText("Score: " + score + " Lives: " + lives, 10, 100, paint);
+            canvas.drawText(context.getString(R.string.score) + " " + score + " " + context.getString(R.string.lives) + " " + lives, 10, 100, paint);
 
             //draw game over text when the game is over
             if (gameOver) {
                 paint.setTextSize(150);
 
-                int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)); // TODO: 23.10.2017 try to simplify this part of code
-                int xPos = (int) ((canvas.getWidth() / 2) + ((paint.descent() + paint.ascent()) * 2));
-                canvas.drawText("Game Over", xPos, yPos, paint);
+                int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+                int xPos = (int) ((canvas.getWidth() / 2) - (paint.measureText(context.getString(R.string.game_over)) / 2));
+                canvas.drawText(context.getString(R.string.game_over), xPos, yPos, paint);
             }
 
             //show level number, use levelTimer variable to count time to show text
             if (oldLevel < level && levelTimer < 100 && !gameOver) {
-                canvas.save();
                 paint.setTextSize(150);
 
                 int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
-                int xPos = (int) ((canvas.getWidth() / 2) + ((paint.descent() + paint.ascent()) * 2));
-                canvas.drawText("Level:" + level, xPos, yPos, paint);
+                int xPos = (int) ((canvas.getWidth() / 2) - (paint.measureText(context.getString(R.string.level)) / 2));
+                canvas.drawText(context.getString(R.string.level) + " " + level, xPos, yPos, paint);
                 levelTimer++;
 
                 //reset levelTimer
@@ -284,7 +286,6 @@ public class GameView extends SurfaceView implements Runnable {
                     oldLevel++;
                     levelTimer = 0;
                 }
-                canvas.restore();
             }
 
             //Unlocking the canvas
