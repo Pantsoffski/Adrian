@@ -50,7 +50,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int oldLevel = 0;
     private int levelTimer = 0;
     //talking bubble
-    private int talkingBubbleTimer = 0;
+    private int talkingBubbleTimer = 1;
     private boolean talkingBubbleIgnition = false;
     private TalkingBubble talkingBubbleRect;
     //number of lives
@@ -204,7 +204,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
 
             //talking bubble ignition
-            if (talkingBubbleTimer % 500 == 0) {
+            if (talkingBubbleTimer % 400 == 0) {
                 talkingBubbleRect = new TalkingBubble(context, maxX, maxY);
                 talkingBubbleIgnition = true;
             } else if (talkingBubbleTimer % 200 == 0) {
