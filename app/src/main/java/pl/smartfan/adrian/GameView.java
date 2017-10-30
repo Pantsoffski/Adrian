@@ -49,7 +49,10 @@ public class GameView extends SurfaceView implements Runnable {
     private int level = 1;
     private int oldLevel = 0;
     private int levelTimer = 0;
+    //talking bubble
     private int talkingBubbleTimer = 0;
+    private boolean talkingBubbleIgnition = false;
+    private TalkingBubble talkingBubbleRect;
     //number of lives
     private int lives = 3;
 
@@ -199,6 +202,14 @@ public class GameView extends SurfaceView implements Runnable {
                     gameOver = true;
                 }
             }
+
+            //talking bubble ignition
+            if (talkingBubbleTimer % 500 == 0) {
+                talkingBubbleRect = new TalkingBubble(context, maxX, maxY);
+                talkingBubbleIgnition = true;
+            } else if (talkingBubbleTimer % 200 == 0) {
+                talkingBubbleIgnition = false;
+            }
         }
 
         //if there is no papers, add new, rand number of papers
@@ -232,12 +243,11 @@ public class GameView extends SurfaceView implements Runnable {
                     paint);*/
 
             //drawing talking bubble
-            if (talkingBubbleTimer % 200 == 0) { // TODO: 26.10.2017 it should appear for few seconds 
-                TalkingBubble rect = new TalkingBubble(context, maxX, maxY);
-                canvas.drawRect(rect.getBubble(), paint);
+            if (talkingBubbleIgnition) { // TODO: 26.10.2017 it should appear for few seconds
+                canvas.drawRect(talkingBubbleRect.getBubble(), paint);
                 canvas.save();
-                canvas.translate(rect.getBubble().left, rect.getBubble().top);
-                rect.getText().draw(canvas);
+                canvas.translate(talkingBubbleRect.getBubble().left, talkingBubbleRect.getBubble().top);
+                talkingBubbleRect.getText().draw(canvas);
                 canvas.restore();
             }
 
