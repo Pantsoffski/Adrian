@@ -167,55 +167,57 @@ public class GameView extends SurfaceView implements Runnable {
         //updating player position
         president.update();
 
-        //papers movement
-        for (int i = 0; i < currentPapersCount; i++) {
-            papers.get(i).update();
-            Rect papersCollision = papers.get(i).getDetectCollision();
+        if (!gameOver) {
+            //papers movement
+            for (int i = 0; i < currentPapersCount; i++) {
+                papers.get(i).update();
+                Rect papersCollision = papers.get(i).getDetectCollision();
 
-            //add score if needed
-            if (Rect.intersects(desk, papersCollision)) {
-                //remove from ArrayList
-                papers.remove(i);
-                currentPapersCount--;
-                score++;
+                //add score if needed
+                if (Rect.intersects(desk, papersCollision)) {
+                    //remove from ArrayList
+                    papers.remove(i);
+                    currentPapersCount--;
+                    score++;
 
-                //add level if score grows
-                if (score % 10 == 0) {
-                    presidentPapers.setSpeed(2);
-                    maxPapersCount += 1;
-                    level++;
+                    //add level if score grows
+                    if (score % 10 == 0) {
+                        presidentPapers.setSpeed(2);
+                        maxPapersCount += 1;
+                        level++;
+                    }
+
+                    continue;
                 }
 
-                continue;
-            }
+                //if collision occurs with floor
+                if (Rect.intersects(floor, papersCollision)) {
+                    //remove from ArrayList
+                    papers.remove(i);
+                    --currentPapersCount;
+                    --lives;
 
-            //if collision occurs with floor
-            if (Rect.intersects(floor, papersCollision)) {
-                //remove from ArrayList
-                papers.remove(i);
-                --currentPapersCount;
-                --lives;
+                    //game over if no more lives left
+                    if (lives < 1) {
+                        playing = false;
+                        gameOver = true;
+                    }
+                }
 
-                //game over if no more lives left
-                if (lives < 1) {
-                    playing = false;
-                    gameOver = true;
+                //talking bubble ignition
+                if (talkingBubbleTimer % 400 == 0) {
+                    talkingBubbleRect = new TalkingBubble(context, maxX, maxY);
+                    talkingBubbleIgnition = true;
+                } else if (talkingBubbleTimer % 200 == 0) {
+                    talkingBubbleIgnition = false;
                 }
             }
 
-            //talking bubble ignition
-            if (talkingBubbleTimer % 400 == 0) {
-                talkingBubbleRect = new TalkingBubble(context, maxX, maxY);
-                talkingBubbleIgnition = true;
-            } else if (talkingBubbleTimer % 200 == 0) {
-                talkingBubbleIgnition = false;
+            //if there is no papers, add new, rand number of papers
+            if (currentPapersCount < maxPapersCount) {
+                currentPapersCount++;
+                addPapers(false);
             }
-        }
-
-        //if there is no papers, add new, rand number of papers
-        if (currentPapersCount < maxPapersCount) {
-            currentPapersCount++;
-            addPapers(false);
         }
     }
 
@@ -251,6 +253,7 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.restore();
             }
 
+            //draw papers
             for (int i = 0; i < currentPapersCount; i++) {
                 //make sure coordinates are not larger than screen dimension and is not negative
                 if (maxX > papers.get(i).getX() && maxY > papers.get(i).getY() && papers.get(i).getX() >= 0) {
