@@ -1,6 +1,7 @@
 package pl.smartfan.adrian;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -23,6 +24,8 @@ public class GameView extends SurfaceView implements Runnable {
     volatile boolean playing, gameOver;
     //context
     Context context;
+    //shared preferences for high score
+    SharedPreferences sharedPreferences;
     private Thread gameThread = null;
     //adding the player to this class
     private President president;
@@ -55,7 +58,8 @@ public class GameView extends SurfaceView implements Runnable {
     private TalkingBubble talkingBubbleRect;
     //number of lives
     private int lives = 3;
-
+    //high score
+    private int[] highScore = new int[8];
     //background image
     private Bitmap backgroundImage = BitmapFactory.decodeResource(getResources(), R.mipmap.splash_screen);
 
@@ -98,12 +102,23 @@ public class GameView extends SurfaceView implements Runnable {
         //set default basket
         desk = deskTopLeft;
 
-
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new TextPaint();
         paint.setTextSize(100); //set text size
         paint.setColor(Color.RED);
+
+        //initializing high score array & shared preferences
+        sharedPreferences = context.getSharedPreferences("ADRIAN_HIGH_SCORE", Context.MODE_PRIVATE);
+
+        highScore[0] = sharedPreferences.getInt("score1", 0);
+        highScore[1] = sharedPreferences.getInt("score2", 0);
+        highScore[2] = sharedPreferences.getInt("score3", 0);
+        highScore[3] = sharedPreferences.getInt("score4", 0);
+        highScore[4] = sharedPreferences.getInt("score4", 0);
+        highScore[5] = sharedPreferences.getInt("score5", 0);
+        highScore[6] = sharedPreferences.getInt("score6", 0);
+        highScore[7] = sharedPreferences.getInt("score7", 0);
     }
 
     //add papers objects method
@@ -201,6 +216,21 @@ public class GameView extends SurfaceView implements Runnable {
                     if (lives < 1) {
                         playing = false;
                         gameOver = true;
+
+                        //put high score to array (if it's  greater)
+                        for (int it = 0; it < 8; it++) {
+                            if (highScore[it] < score) {
+                                highScore[it] = score;
+                            }
+                        }
+
+                        //storing the scores through shared Preferences
+                        SharedPreferences.Editor e = sharedPreferences.edit();
+                        for (int it = 0; i < 8; it++) {
+                            int j = it + 1;
+                            e.putInt("score" + j, highScore[i]);
+                        }
+                        e.apply();
                     }
                 }
 
@@ -227,8 +257,8 @@ public class GameView extends SurfaceView implements Runnable {
             //locking the canvas
             Canvas canvas = surfaceHolder.lockCanvas();
             //drawing a background image for canvas
-            //canvas.drawBitmap(backgroundImage, 0, 0, null);
-            canvas.drawColor(Color.WHITE);
+            canvas.drawBitmap(backgroundImage, 0, 0, null);
+            //canvas.drawColor(Color.WHITE);
 
             //Drawing the player
             canvas.drawBitmap(

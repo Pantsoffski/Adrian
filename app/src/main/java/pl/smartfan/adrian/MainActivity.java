@@ -33,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, GameActivity.class));
     }
 
+    public void highScoreButton(View v) {
+        //starting game activity
+        startActivity(new Intent(this, HighScore.class));
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
