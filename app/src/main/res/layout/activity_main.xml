@@ -7,7 +7,6 @@
     android:background="@mipmap/splash_screen"
     tools:context="pl.smartfan.adrian.MainActivity">
 
-
     <ImageView
         android:id="@+id/titleImage"
         android:layout_width="wrap_content"
@@ -35,7 +34,7 @@
     <ImageButton
         android:id="@+id/highScoreButton"
         android:layout_width="wrap_content"
-        android:layout_height="95dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:onClick="highScoreButton"

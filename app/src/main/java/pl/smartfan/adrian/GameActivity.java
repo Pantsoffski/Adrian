@@ -3,9 +3,7 @@ package pl.smartfan.adrian;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Display;
-import android.view.View;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -29,10 +27,6 @@ public class GameActivity extends AppCompatActivity {
 
         //adding it to contentView
         setContentView(gameView);
-    }
-
-    public void buttonTest(View view) {
-        Log.i("buttonTest: ", "no i działa");
     }
 
     //pausing the game when activity is paused

@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void highScoreButton(View v) {
-        //starting game activity
-        startActivity(new Intent(this, HighScore.class));
+        //starting high score activity
+        startActivity(new Intent(this, HighScoreActivity.class));
     }
 
     @Override
