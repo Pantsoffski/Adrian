@@ -3,6 +3,7 @@ package pl.smartfan.adrian;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 
 import java.util.ArrayList;
@@ -16,12 +17,12 @@ import java.util.Random;
  */
 
 public class Papers {
-    //private Matrix matrix = new Matrix();
-
     //last shelf int
     private static int lastShelf;
-    //private float angle = 0;
+    //initiate matrix
+    private Matrix matrix = new Matrix();
     //coordinates & angle
+    private float angle = 0;
     private int x, y;
     //random shelf
     private int shelf;
@@ -117,7 +118,7 @@ public class Papers {
                 break;
         }
 
-        //angle += 0.001f;
+        angle += 0.01f;
 
         //Adding the top, left, bottom and right to the rect object
         detectCollision.left = x;
@@ -158,10 +159,11 @@ public class Papers {
 
     //getters
     public Bitmap getBitmap() {
-        bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, false); //bitmap scaling
-        //matrix.reset();
-        //matrix.postRotate(angle);
-        //bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100, false); //bitmap scaling
+        matrix.reset();
+        //matrix.setTranslate(0, 0);
+        matrix.postRotate(angle, (bitmap.getWidth() / 2), (bitmap.getHeight() / 2)); // TODO: 09.11.2017 stop bitmap resizing while rotating
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         return bitmap;
     }
 

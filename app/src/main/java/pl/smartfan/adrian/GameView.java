@@ -258,8 +258,8 @@ public class GameView extends SurfaceView implements Runnable {
             //locking the canvas
             Canvas canvas = surfaceHolder.lockCanvas();
             //drawing a background image for canvas
-            canvas.drawBitmap(backgroundImage, 0, 0, null);
-            //canvas.drawColor(Color.WHITE);
+            //canvas.drawBitmap(backgroundImage, 0, 0, null);
+            canvas.drawColor(Color.WHITE);
 
             //Drawing the player
             canvas.drawBitmap(

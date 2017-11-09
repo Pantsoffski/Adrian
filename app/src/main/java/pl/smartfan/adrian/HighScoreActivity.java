@@ -10,7 +10,7 @@ import android.widget.TextView;
  * Class responsible for displaying High Score.
  */
 
-public class HighScoreActivity extends AppCompatActivity { // TODO: 07.11.2017 create high score
+public class HighScoreActivity extends AppCompatActivity {
 
     TextView highScoreText1, highScoreText2, highScoreText3, highScoreText4, highScoreText5, highScoreText6, highScoreText7, highScoreText8;
 
