@@ -27,7 +27,7 @@ public class Papers {
     //random shelf
     private int shelf;
     //speed level
-    private int leveledSpeed = 1;
+    private int leveledSpeed = 1; // TODO: 10.11.2017 make it faster with new levels
 
     //creating a rect object
     private Rect detectCollision;
@@ -85,6 +85,7 @@ public class Papers {
                     x += speed;
                     y += shelfSlopingDegree;
                 }
+                angle += 5f + speed;
                 break;
             case 1:
                 speed = calculateSpeed();
@@ -95,6 +96,7 @@ public class Papers {
                     x -= speed;
                     y += shelfSlopingDegree;
                 }
+                angle -= 5f + speed;
                 break;
             case 2:
                 speed = calculateSpeed();
@@ -105,6 +107,7 @@ public class Papers {
                     x += speed;
                     y += shelfSlopingDegree;
                 }
+                angle += 5f + speed;
                 break;
             case 3:
                 speed = calculateSpeed();
@@ -115,10 +118,9 @@ public class Papers {
                     x -= speed;
                     y += shelfSlopingDegree;
                 }
+                angle -= 5f + speed;
                 break;
         }
-
-        angle += 0.01f;
 
         //Adding the top, left, bottom and right to the rect object
         detectCollision.left = x;
@@ -128,8 +130,7 @@ public class Papers {
     }
 
     public int calculateSpeed() {
-        int randSpeed = rand.nextInt(5) + leveledSpeed;
-        return randSpeed;
+        return rand.nextInt(5) + leveledSpeed;
     }
 
     //get random shelf number and not duplicate last shelf
@@ -158,13 +159,15 @@ public class Papers {
     }
 
     //getters
+
     public Bitmap getBitmap() {
-        bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100, false); //bitmap scaling
+        bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, false); //bitmap scaling
         matrix.reset();
-        //matrix.setTranslate(0, 0);
-        matrix.postRotate(angle, (bitmap.getWidth() / 2), (bitmap.getHeight() / 2)); // TODO: 09.11.2017 stop bitmap resizing while rotating
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        return bitmap;
+        //matrix.setTranslate();
+        matrix.postRotate(angle);
+        // TODO: 10.11.2017 research setSinCos method
+        //matrix.setSinCos(angle, angle / 2);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
     public int getX() {
@@ -172,7 +175,7 @@ public class Papers {
     }
 
     public void setSpeed(int speed) {
-        this.leveledSpeed = speed;
+        leveledSpeed = speed;
     }
 
     public int getY() {

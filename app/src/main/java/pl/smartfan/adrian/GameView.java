@@ -197,9 +197,9 @@ public class GameView extends SurfaceView implements Runnable {
 
                     //add level if score grows
                     if (score % 10 == 0) {
-                        presidentPapers.setSpeed(2);
-                        maxPapersCount += 1;
                         level++;
+                        presidentPapers.setSpeed(level); //use level value to add speed
+                        maxPapersCount += 1;
                     }
 
                     continue;
@@ -291,8 +291,9 @@ public class GameView extends SurfaceView implements Runnable {
                     //Drawing papers
                     canvas.drawBitmap(
                             papers.get(i).getBitmap(),
-                            papers.get(i).getX(),
-                            papers.get(i).getY(),
+                            //get bitmap coordinates not with top let corner but with center of bitmap, to avoid papers jumps
+                            papers.get(i).getX() - papers.get(i).getBitmap().getWidth() / 2,
+                            papers.get(i).getY() - papers.get(i).getBitmap().getHeight() / 2,
                             paint);
                 } else {
                     papers.remove(i);
