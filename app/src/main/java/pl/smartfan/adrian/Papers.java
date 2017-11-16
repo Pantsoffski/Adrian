@@ -19,6 +19,8 @@ import java.util.Random;
 public class Papers {
     //last shelf int
     private static int lastShelf;
+    //speed level
+    private static int leveledSpeed = 1; // TODO: 10.11.2017 make it faster with new levels (modified, test it)
     //initiate matrix
     private Matrix matrix = new Matrix();
     //coordinates & angle
@@ -26,9 +28,6 @@ public class Papers {
     private int x, y;
     //random shelf
     private int shelf;
-    //speed level
-    private int leveledSpeed = 1; // TODO: 10.11.2017 make it faster with new levels
-
     //creating a rect object
     private Rect detectCollision;
 
