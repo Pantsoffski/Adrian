@@ -35,14 +35,13 @@ public class HighScoreActivity extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("ADRIAN_HIGH_SCORE", Context.MODE_PRIVATE);
 
         //set high scores values to textViews
-        highScoreText1.setText(String.valueOf(sharedPreferences.getInt("score1", 0)));
-        highScoreText2.setText(String.valueOf(sharedPreferences.getInt("score2", 0)));
-        highScoreText3.setText(String.valueOf(sharedPreferences.getInt("score3", 0)));
-        highScoreText4.setText(String.valueOf(sharedPreferences.getInt("score4", 0)));
-        highScoreText5.setText(String.valueOf(sharedPreferences.getInt("score5", 0)));
-        highScoreText6.setText(String.valueOf(sharedPreferences.getInt("score6", 0)));
-        highScoreText7.setText(String.valueOf(sharedPreferences.getInt("score7", 0)));
-        highScoreText8.setText(String.valueOf(sharedPreferences.getInt("score8", 0)));
-
+        highScoreText1.setText(getString(R.string.high_score_number, 1, sharedPreferences.getInt("score1", 0)));
+        highScoreText2.setText(getString(R.string.high_score_number, 2, sharedPreferences.getInt("score2", 0)));
+        highScoreText3.setText(getString(R.string.high_score_number, 3, sharedPreferences.getInt("score3", 0)));
+        highScoreText4.setText(getString(R.string.high_score_number, 4, sharedPreferences.getInt("score4", 0)));
+        highScoreText5.setText(getString(R.string.high_score_number, 5, sharedPreferences.getInt("score5", 0)));
+        highScoreText6.setText(getString(R.string.high_score_number, 6, sharedPreferences.getInt("score6", 0)));
+        highScoreText7.setText(getString(R.string.high_score_number, 7, sharedPreferences.getInt("score7", 0)));
+        highScoreText8.setText(getString(R.string.high_score_number, 8, sharedPreferences.getInt("score8", 0)));
     }
 }

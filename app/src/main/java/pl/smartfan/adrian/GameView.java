@@ -198,7 +198,7 @@ public class GameView extends SurfaceView implements Runnable {
                     //add level if score grows
                     if (score % 10 == 0) {
                         level++;
-                        presidentPapers.setSpeed(level); //use level value to add speed
+                        presidentPapers.setSpeed(level); //use level value to increase speed
                         maxPapersCount += 1;
                     }
 

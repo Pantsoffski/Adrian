@@ -4,6 +4,7 @@
     <string name="score">Score:</string>
     <string name="level">Level:</string>
     <string name="lives">Lives:</string>
+    <string name="high_score_number">%1$d. %2$d</string>
     <string-array name="funny_sentences">
         <item>The bacteria in your large intestine ferment any undigested carbs</item>
         <item>Hanks films have grossed more than $4.5 billion at U.S</item>
